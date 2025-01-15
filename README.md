@@ -34,6 +34,18 @@
 
 - [Documentation](https://42crunch.com/)
 
+## Common Properties
+
+- [Gateway](https://42crunch.com/api-gateways-integrations/)
+- [Blog](https://42crunch.com/blog/)
+- [Pipelines](https://42crunch.com/cicd-api-integrations/)
+- [Tutorials](https://42crunch.com/tutorials/)
+- [Documentation](https://docs.42crunch.com/latest/content/home.htm)
+- [Support](https://support.42crunch.com/hc/en-us)
+- [Pricing](https://42crunch.com/pricing/)
+- [Partners](https://42crunch.com/partners/)
+- [Webinars](https://42crunch.com/webinars/)
+
 ## Maintainers
 
 **FN:** Kin Lane
