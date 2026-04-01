@@ -18,7 +18,7 @@ description: >-
   standards. Their mission is to empower businesses to build and maintain secure
   APIs, ultimately ensuring the trust and security of their digital assets.
 created: '2025-01-08'
-modified: '2026-03-16'
+modified: '2026-04-01'
 specificationVersion: '0.19'
 apis:
   - aid: 42crunch:42crunch-api-security-platform
@@ -51,6 +51,10 @@ common:
     url: https://42crunch.com/webinars/
   - type: Partners
     url: https://42crunch.com/partners/
+  - type: Login
+    url: https://platform.42crunch.com/login
+  - type: GitHubOrganization
+    url: https://github.com/42Crunch
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
