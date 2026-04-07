@@ -9,14 +9,12 @@ tags:
   - Platform
   - Scanning
 description: >-
-  42Crunch is a leading API security company that specializes in protecting and
-  securing APIs. They provide innovative solutions that help organizations
-  safeguard their sensitive data and critical assets from potential cyber
-  threats. With their comprehensive API security platform, 42Crunch offers a
-  range of services such as API scanning, traffic monitoring, and runtime
-  protection to ensure that APIs are secure and compliant with industry
-  standards. Their mission is to empower businesses to build and maintain secure
-  APIs, ultimately ensuring the trust and security of their digital assets.
+  42Crunch is a leading API security company that specializes in protecting and securing
+  APIs. They provide innovative solutions that help organizations safeguard their
+  sensitive data and critical assets from potential cyber threats. With their comprehensive
+  API security platform, 42Crunch offers a range of services such as API scanning,
+  traffic monitoring, and runtime protection to ensure that APIs are secure and compliant
+  with industry standards.
 created: '2025-01-08'
 modified: '2026-04-01'
 specificationVersion: '0.19'
