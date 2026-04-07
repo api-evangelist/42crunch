@@ -5,9 +5,9 @@ name: 42Crunch
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-  - Security
   - Platform
   - Scanning
+  - Security
 description: >-
   42Crunch is a leading API security company that specializes in protecting and securing
   APIs. They provide innovative solutions that help organizations safeguard their
@@ -22,9 +22,9 @@ apis:
   - aid: 42crunch:42crunch-api-security-platform
     name: 42Crunch API Security Platform
     tags:
-      - Security
       - API Security
       - Scanning
+      - Security
     humanURL: https://42crunch.com/
     properties:
       - url: https://docs.42crunch.com/latest/content/home.htm
