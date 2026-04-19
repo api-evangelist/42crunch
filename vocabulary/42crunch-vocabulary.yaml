@@ -1,0 +1,280 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: "42Crunch"
+  description: >-
+    Unified taxonomy of the 42Crunch API Security Platform covering operational
+    API resources (from OpenAPI specs) and capability workflows (from Naftiko
+    definitions) for DevSecOps engineers and security teams managing API
+    conformance scanning on Kubernetes.
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+# OPERATIONAL DIMENSION (from OpenAPI)
+operational:
+  apis:
+    - namespace: scand-manager
+      name: 42Crunch API Conformance Scan Jobs Manager
+      version: "1.0.0"
+      baseUrl: http://localhost:8090
+      status: active
+      description: >-
+        Manages API conformance scan job lifecycle on Kubernetes including
+        creation, status monitoring, log retrieval, and deletion.
+
+  resources:
+    - name: jobs
+      description: Collection of API conformance scan jobs on Kubernetes
+      api: scand-manager
+      actions:
+        - list
+        - create
+      path: /api/job
+
+    - name: job
+      description: A single API conformance scan job identified by name
+      api: scand-manager
+      actions:
+        - get
+        - delete
+      path: /api/job/{name}
+
+    - name: logs
+      description: Execution logs for a conformance scan job
+      api: scand-manager
+      actions:
+        - get
+      path: /api/logs/{name}
+
+    - name: health
+      description: Service health status endpoint
+      api: scand-manager
+      actions:
+        - check
+      path: /health
+
+  actions:
+    - name: list
+      description: Retrieve a collection of resources
+      httpMethod: GET
+      pattern: read
+      operations:
+        - listJobs
+
+    - name: get
+      description: Retrieve a single resource by identifier
+      httpMethod: GET
+      pattern: read
+      operations:
+        - getJob
+        - getLogs
+
+    - name: create
+      description: Create a new resource
+      httpMethod: POST
+      pattern: write
+      operations:
+        - createJob
+
+    - name: delete
+      description: Remove a resource permanently
+      httpMethod: DELETE
+      pattern: destructive
+      operations:
+        - deleteJob
+
+    - name: check
+      description: Verify service or resource health status
+      httpMethod: GET
+      pattern: read
+      operations:
+        - healthCheck
+
+  schemas:
+    core:
+      - name: JobSpec
+        description: Specification for creating a new conformance scan job
+        properties:
+          - token
+          - name
+          - expirationTime
+          - platformService
+          - scandImage
+          - env
+
+      - name: JobStatus
+        description: Current status of a conformance scan job
+        properties:
+          - name
+          - status
+
+      - name: Jobs
+        description: Collection of all scan job statuses
+        properties:
+          - jobs
+
+      - name: JobName
+        description: String identifier for a scan job with scand- prefix
+
+      - name: Error
+        description: Error response with human-readable message
+        properties:
+          - error
+
+  parameters:
+    identifiers:
+      - name: name
+        description: Scan job name (e.g., scand-48340c78-a76c-475f-aa4a-36fc834b3c02)
+        in: path
+        type: string
+
+  enums:
+    job_status:
+      values:
+        - started
+        - active
+        - succeeded
+        - failed
+        - unknown
+        - deleted
+      description: Lifecycle states of a conformance scan job
+
+    health_status:
+      values:
+        - OK
+      description: Health check status values
+
+  authentication:
+    schemes:
+      - name: No Authentication
+        description: The Scand Manager API does not require authentication (designed for internal/cluster use)
+        type: none
+        apis:
+          - scand-manager
+
+# CAPABILITY DIMENSION (from Naftiko)
+capability:
+  workflows:
+    - name: API Security Scanning
+      file: capabilities/api-security-scanning.yaml
+      description: >-
+        Workflow for DevSecOps engineers running automated API conformance
+        scans on Kubernetes with CI/CD pipeline integration.
+      apisComposed:
+        - scand-manager
+      toolCount: 6
+      personas:
+        - DevSecOps Engineer
+        - Security Team
+      domains:
+        - API Security
+        - Conformance Testing
+        - Kubernetes Operations
+
+  personas:
+    - id: devsecops-engineer
+      name: DevSecOps Engineer
+      description: >-
+        Engineers embedding API security scanning into CI/CD pipelines and
+        automating conformance testing as part of the development workflow.
+      workflows:
+        - API Security Scanning
+
+    - id: security-team
+      name: Security Team
+      description: >-
+        Security professionals managing API conformance testing, reviewing
+        scan results, and ensuring APIs meet security standards before
+        and after deployment.
+      workflows:
+        - API Security Scanning
+
+  domains:
+    - name: API Security
+      description: Ensuring APIs are secure and compliant with security standards
+      resources:
+        - jobs
+        - job
+      workflows:
+        - API Security Scanning
+
+    - name: Conformance Testing
+      description: Validating API runtime behavior against OpenAPI contract specifications
+      resources:
+        - jobs
+        - job
+        - logs
+      workflows:
+        - API Security Scanning
+
+    - name: Kubernetes Operations
+      description: Managing containerized workloads for API scan execution
+      resources:
+        - jobs
+        - health
+      workflows:
+        - API Security Scanning
+
+  namespaces:
+    consumed:
+      - name: scand-manager
+        type: http
+        baseUri: http://localhost:8090
+        description: 42Crunch Scand Manager API
+
+    rest:
+      - name: api-security-scanning-api
+        port: 8080
+        description: Unified REST API for API security scanning workflows
+
+    mcp:
+      - name: api-security-scanning-mcp
+        port: 9090
+        transport: http
+        description: MCP server for AI-assisted API security scanning
+
+  binds:
+    - name: SCAN_MANAGER_URL
+      description: Base URL for the 42Crunch scan manager service
+      workflows:
+        - API Security Scanning
+
+# CROSS-REFERENCE
+crossReference:
+  - resource: jobs
+    operations:
+      - listJobs
+      - createJob
+    workflows:
+      - API Security Scanning
+    personas:
+      - DevSecOps Engineer
+      - Security Team
+
+  - resource: job
+    operations:
+      - getJob
+      - deleteJob
+    workflows:
+      - API Security Scanning
+    personas:
+      - DevSecOps Engineer
+      - Security Team
+
+  - resource: logs
+    operations:
+      - getLogs
+    workflows:
+      - API Security Scanning
+    personas:
+      - DevSecOps Engineer
+      - Security Team
+
+  - resource: health
+    operations:
+      - healthCheck
+    workflows:
+      - API Security Scanning
+    personas:
+      - DevSecOps Engineer
+      - Security Team

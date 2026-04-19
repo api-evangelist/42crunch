@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/42crunch/refs/heads/main/json-schema/scand-manager-job-name-schema.json",
+  "title": "JobName",
+  "description": "Unique name identifier for a scan job, prefixed with 'scand-'",
+  "type": "string",
+  "pattern": "^scand-[0-9a-zA-Z-]{1,36}$",
+  "maxLength": 42,
+  "minLength": 7,
+  "example": "scand-48340c78-a76c-475f-aa4a-36fc834b3c02"
+}

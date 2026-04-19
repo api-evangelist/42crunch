@@ -1,0 +1,47 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "42c": "https://42crunch.com/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "Jobs": "42c:Jobs",
+    "JobSpec": "42c:JobSpec",
+    "JobStatus": "42c:JobStatus",
+    "Error": "42c:Error",
+    "jobs": {
+      "@id": "42c:jobs",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "token": {
+      "@id": "42c:token",
+      "@type": "xsd:string"
+    },
+    "name": "schema:name",
+    "expirationTime": {
+      "@id": "42c:expirationTime",
+      "@type": "xsd:integer"
+    },
+    "platformService": {
+      "@id": "42c:platformService",
+      "@type": "xsd:string"
+    },
+    "scandImage": {
+      "@id": "42c:scandImage",
+      "@type": "xsd:string"
+    },
+    "env": {
+      "@id": "42c:env",
+      "@type": "@id"
+    },
+    "status": {
+      "@id": "42c:status",
+      "@type": "xsd:string"
+    },
+    "error": {
+      "@id": "42c:error",
+      "@type": "xsd:string"
+    }
+  }
+}

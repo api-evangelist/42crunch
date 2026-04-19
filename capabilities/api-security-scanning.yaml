@@ -1,0 +1,189 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "42Crunch API Security Scanning"
+  description: >-
+    Workflow capability for DevSecOps engineers and security teams running automated
+    API conformance scans on Kubernetes. Combines scan job management and log
+    retrieval into a unified interface for CI/CD pipeline integration, on-premises
+    security testing, and runtime compliance validation.
+  tags:
+    - API Security
+    - Conformance Scanning
+    - Kubernetes
+    - DevSecOps
+    - CI/CD
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+binds:
+  - namespace: env
+    keys:
+      SCAN_MANAGER_URL: SCAN_MANAGER_URL
+
+capability:
+  consumes:
+    - import: scand-manager
+      location: ./shared/scand-manager.yaml
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: api-security-scanning-api
+      description: "Unified REST API for 42Crunch API security scanning workflows."
+      resources:
+        - path: /v1/scans
+          name: scans
+          description: "Manage API conformance scan jobs"
+          operations:
+            - method: GET
+              name: list-scans
+              description: "List all active and completed API conformance scans"
+              call: "scand-manager.list-jobs"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+            - method: POST
+              name: run-scan
+              description: "Start a new API conformance scan job on Kubernetes"
+              call: "scand-manager.create-job"
+              with:
+                token: "rest.token"
+                name: "rest.name"
+                expirationTime: "rest.expirationTime"
+                platformService: "rest.platformService"
+                scandImage: "rest.scandImage"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/scans/{name}
+          name: scan
+          description: "Check or remove a specific scan job"
+          operations:
+            - method: GET
+              name: get-scan-status
+              description: "Get the current status of a specific API conformance scan"
+              call: "scand-manager.get-job"
+              with:
+                name: "rest.name"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+            - method: DELETE
+              name: cancel-scan
+              description: "Cancel and remove a specific API conformance scan job"
+              call: "scand-manager.delete-job"
+              with:
+                name: "rest.name"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/scans/{name}/logs
+          name: scan-logs
+          description: "Access scan execution logs"
+          operations:
+            - method: GET
+              name: get-scan-logs
+              description: "Retrieve execution logs from an API conformance scan"
+              call: "scand-manager.get-logs"
+              with:
+                name: "rest.name"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/health
+          name: health
+          description: "Service health check"
+          operations:
+            - method: GET
+              name: check-health
+              description: "Check the scan manager service health"
+              call: "scand-manager.health-check"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9090
+      namespace: api-security-scanning-mcp
+      transport: http
+      description: "MCP server for AI-assisted API security scanning and conformance testing workflows."
+      tools:
+        - name: list-api-scans
+          description: "List all API conformance scan jobs including their current status (started, active, succeeded, failed)"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "scand-manager.list-jobs"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: run-api-scan
+          description: "Start a new 42Crunch API conformance scan job on Kubernetes using a scan token from the 42Crunch platform"
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: false
+          call: "scand-manager.create-job"
+          with:
+            token: "tools.token"
+            name: "tools.name"
+            expirationTime: "tools.expirationTime"
+            platformService: "tools.platformService"
+            scandImage: "tools.scandImage"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-scan-status
+          description: "Get the current status of a specific API conformance scan job (started, active, succeeded, failed, unknown)"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "scand-manager.get-job"
+          with:
+            name: "tools.name"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: cancel-api-scan
+          description: "Cancel and remove a specific API conformance scan job from the Kubernetes cluster"
+          hints:
+            readOnly: false
+            destructive: true
+            idempotent: true
+          call: "scand-manager.delete-job"
+          with:
+            name: "tools.name"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-scan-logs
+          description: "Retrieve execution logs from an API conformance scan job to diagnose failures or review results"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "scand-manager.get-logs"
+          with:
+            name: "tools.name"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: check-scanner-health
+          description: "Check the health status of the 42Crunch scan manager service to verify availability"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "scand-manager.health-check"
+          outputParameters:
+            - type: object
+              mapping: "$."

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/42crunch/refs/heads/main/json-schema/scand-manager-error-schema.json",
+  "title": "Error",
+  "description": "Error response from the API",
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string",
+      "description": "Human-readable error message",
+      "maxLength": 1024,
+      "minLength": 1,
+      "pattern": "^\\P{Cc}+$",
+      "example": "Job not found"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "error"
+  ]
+}

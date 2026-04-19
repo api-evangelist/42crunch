@@ -1,0 +1,412 @@
+openapi: 3.0.0
+
+info:
+  title: 42Crunch API Conformance Scan Jobs Manager
+  description: >-
+    API Conformance Scan Jobs Manager provides a convenient way to run 42Crunch
+    API Conformance Scan on-premises as a Kubernetes Job in your Kubernetes cluster.
+    It manages scan job lifecycle including creation, status monitoring, log retrieval,
+    and deletion.
+  version: 1.0.0
+  x-generated-from: documentation
+  contact:
+    name: 42Crunch Support
+    url: https://support.42crunch.com/hc/en-us
+
+x-42c-no-authentication: true
+
+servers:
+  - description: Local server
+    url: http://localhost:8090/
+
+tags:
+  - name: Jobs
+    description: Manage API conformance scan jobs on Kubernetes
+  - name: Logs
+    description: Access job execution logs
+  - name: Health
+    description: Service health check
+
+paths:
+  /api/job:
+    get:
+      summary: 42Crunch List All Scan Jobs
+      description: Get status of all conformance scan jobs currently managed by the scan manager.
+      operationId: listJobs
+      tags:
+        - Jobs
+      responses:
+        "200":
+          description: OK - List of all jobs returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Jobs"
+              examples:
+                ListJobs200Example:
+                  summary: Default listJobs 200 response
+                  x-microcks-default: true
+                  value:
+                    jobs:
+                      - name: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
+                        status: active
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                ListJobs400Example:
+                  summary: Default listJobs 400 response
+                  x-microcks-default: true
+                  value:
+                    error: Invalid request parameters
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+
+    post:
+      summary: 42Crunch Create Scan Job
+      description: Create a new API conformance scan job on Kubernetes using the provided scan token and configuration.
+      operationId: createJob
+      tags:
+        - Jobs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JobSpec"
+            examples:
+              CreateJobRequestExample:
+                summary: Default createJob request
+                x-microcks-default: true
+                value:
+                  token: 00000000-0000-0000-0000-000000000000
+                  name: scand-foo
+                  expirationTime: 777
+                  platformService: protection.42crunch.com:8001
+                  scandImage: 42crunch/scand-agent:latest
+                  env:
+                    HTTPS_PROXY: http://proxy.example.com:8080
+                    SECURITY_FOO: bar
+      responses:
+        "200":
+          description: OK - Job created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobStatus"
+              examples:
+                CreateJob200Example:
+                  summary: Default createJob 200 response
+                  x-microcks-default: true
+                  value:
+                    name: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
+                    status: started
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                CreateJob400Example:
+                  summary: Default createJob 400 response
+                  x-microcks-default: true
+                  value:
+                    error: Missing required field token
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+
+  /api/job/{name}:
+    get:
+      summary: 42Crunch Get Scan Job Status
+      description: Read the current status of a specific conformance scan job by name.
+      operationId: getJob
+      tags:
+        - Jobs
+      parameters:
+        - in: path
+          required: true
+          name: name
+          description: The name of the scan job (e.g., scand-48340c78-a76c-475f-aa4a-36fc834b3c02)
+          schema:
+            $ref: "#/components/schemas/JobName"
+          example: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
+      responses:
+        "200":
+          description: OK - Job status returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobStatus"
+              examples:
+                GetJob200Example:
+                  summary: Default getJob 200 response
+                  x-microcks-default: true
+                  value:
+                    name: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
+                    status: active
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                GetJob400Example:
+                  summary: Default getJob 400 response
+                  x-microcks-default: true
+                  value:
+                    error: Job not found
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+
+    delete:
+      summary: 42Crunch Delete Scan Job
+      description: Delete a conformance scan job by name. Removes the Kubernetes Job resource.
+      operationId: deleteJob
+      tags:
+        - Jobs
+      parameters:
+        - in: path
+          required: true
+          name: name
+          description: The name of the scan job to delete
+          schema:
+            $ref: "#/components/schemas/JobName"
+          example: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
+      responses:
+        "200":
+          description: OK - Job deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobStatus"
+              examples:
+                DeleteJob200Example:
+                  summary: Default deleteJob 200 response
+                  x-microcks-default: true
+                  value:
+                    name: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
+                    status: deleted
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                DeleteJob400Example:
+                  summary: Default deleteJob 400 response
+                  x-microcks-default: true
+                  value:
+                    error: Job not found
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+
+  /api/logs/{name}:
+    get:
+      summary: 42Crunch Get Scan Job Logs
+      description: Retrieve the execution logs for a specific conformance scan job.
+      operationId: getLogs
+      tags:
+        - Logs
+      parameters:
+        - in: path
+          required: true
+          name: name
+          description: The name of the scan job whose logs should be retrieved
+          schema:
+            $ref: "#/components/schemas/JobName"
+          example: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
+      responses:
+        "200":
+          description: OK - Job logs returned as plain text
+          content:
+            text/plain:
+              schema:
+                type: string
+                minLength: 0
+                maxLength: 104857600
+                example: "Starting API conformance scan...\nScan completed successfully."
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                GetLogs400Example:
+                  summary: Default getLogs 400 response
+                  x-microcks-default: true
+                  value:
+                    error: Job not found
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+
+  /health:
+    get:
+      summary: 42Crunch Health Check
+      description: Check the health status of the scan manager service.
+      operationId: healthCheck
+      tags:
+        - Health
+      responses:
+        "200":
+          description: OK - Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: ["OK"]
+                    example: "OK"
+                additionalProperties: false
+                required:
+                  - status
+              examples:
+                HealthCheck200Example:
+                  summary: Default healthCheck 200 response
+                  x-microcks-default: true
+                  value:
+                    status: OK
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                HealthCheck400Example:
+                  summary: Default healthCheck 400 response
+                  x-microcks-default: true
+                  value:
+                    error: Service unavailable
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+
+components:
+  schemas:
+    JobName:
+      type: string
+      description: Unique name identifier for a scan job, prefixed with 'scand-'
+      pattern: ^scand-[0-9a-zA-Z-]{1,36}$
+      maxLength: 42
+      minLength: 7
+      example: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
+
+    Jobs:
+      type: object
+      description: Collection of all scan jobs
+      properties:
+        jobs:
+          type: array
+          description: List of all scan job statuses
+          items:
+            $ref: "#/components/schemas/JobStatus"
+          maxItems: 1024
+          example:
+            - name: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
+              status: active
+      additionalProperties: false
+
+    JobSpec:
+      type: object
+      description: Specification for creating a new conformance scan job
+      properties:
+        token:
+          description: On-premises scan token issued by the 42Crunch Platform
+          type: string
+          pattern: "^(scan_)?[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+          maxLength: 41
+          minLength: 36
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          $ref: "#/components/schemas/JobName"
+        expirationTime:
+          description: Expiration time for the job in seconds (max 7 days)
+          type: integer
+          maximum: 604800
+          minimum: 1
+          format: int32
+          example: 3600
+        platformService:
+          description: Hostname and port for connecting to the 42Crunch Platform
+          type: string
+          pattern: "^[^:]+:[0-9]{3,5}$"
+          maxLength: 128
+          minLength: 3
+          example: protection.42crunch.com:8001
+        scandImage:
+          description: Docker image for the scand-agent container
+          type: string
+          pattern: "^\\P{Cc}{1,128}$"
+          maxLength: 128
+          minLength: 1
+          example: 42crunch/scand-agent:latest
+        env:
+          description: >-
+            Environment variables for scand-agent. Must start with SECURITY_,
+            SCAN42C_, HTTP_PROXY, HTTPS_PROXY, HTTP_PROXY_API, HTTPS_PROXY_API,
+            NO_PROXY, or NO_PROXY_API.
+          type: object
+          additionalProperties:
+            type: string
+            pattern: ^\P{Cc}+$
+            minLength: 0
+            maxLength: 512
+          example:
+            HTTPS_PROXY: http://proxy.example.com:8080
+            HTTPS_PROXY_API: http://proxy-api.example.com:8080
+            SECURITY_FOO: bar
+            SCAN42C_FEATURE_FLAG: enabled
+      additionalProperties: false
+      required:
+        - token
+
+    JobStatus:
+      type: object
+      description: Current status of a conformance scan job
+      properties:
+        name:
+          $ref: "#/components/schemas/JobName"
+        status:
+          type: string
+          description: Current lifecycle status of the job
+          enum:
+            - started
+            - active
+            - succeeded
+            - failed
+            - unknown
+            - deleted
+          example: active
+      additionalProperties: false
+      required:
+        - name
+        - status
+
+    Error:
+      type: object
+      description: Error response from the API
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          maxLength: 1024
+          minLength: 1
+          pattern: ^\P{Cc}+$
+          example: Job not found
+      additionalProperties: false
+      required:
+        - error

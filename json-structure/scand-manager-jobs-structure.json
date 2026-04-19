@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/42crunch/refs/heads/main/json-structure/scand-manager-jobs-structure.json",
+  "name": "Jobs",
+  "description": "Collection of all scan jobs",
+  "type": "object",
+  "properties": {
+    "jobs": {
+      "type": "array",
+      "description": "List of all scan job statuses",
+      "items": {
+        "$ref": "#/components/schemas/JobStatus"
+      },
+      "maxItems": 1024,
+      "example": [
+        {
+          "name": "scand-48340c78-a76c-475f-aa4a-36fc834b3c02",
+          "status": "active"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

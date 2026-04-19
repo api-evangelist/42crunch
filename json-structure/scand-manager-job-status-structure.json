@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/42crunch/refs/heads/main/json-structure/scand-manager-job-status-structure.json",
+  "name": "JobStatus",
+  "description": "Current status of a conformance scan job",
+  "type": "object",
+  "properties": {
+    "name": {
+      "$ref": "#/components/schemas/JobName"
+    },
+    "status": {
+      "type": "string",
+      "description": "Current lifecycle status of the job",
+      "enum": [
+        "started",
+        "active",
+        "succeeded",
+        "failed",
+        "unknown",
+        "deleted"
+      ],
+      "example": "active"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "status"
+  ]
+}
