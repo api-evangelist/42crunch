@@ -291,6 +291,15 @@ common:
         description: >-
           Data Center App Performance Toolkit support for Atlassian platform
           integration.
+  - type: Integrations
+    url: https://42crunch.com/partners/
+integrations:
+  - name: LogoCr1
+  - name: De flags
+  - name: 42C-Crest25-25
+  - name: 42Crunch-API-Securityio-Logo-Color-28-300x94
+  - name: ISO-27001(3)
+  - name: Gradient-Line-1-05-e1645537716386
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
