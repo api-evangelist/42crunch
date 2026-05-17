@@ -188,7 +188,7 @@ common:
     url: capabilities/shared/scand-manager.yaml
   - type: NaftikoCapability
     url: capabilities/api-security-scanning.yaml
-  - type: JSON-LD
+  - type: JSONLD
     url: json-ld/42crunch-scand-manager-context.jsonld
   - type: Features
     data:
