@@ -1,0 +1,151 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Run a 42Crunch scan from a Postman collection run
+  description: From a Postman collection or monitor, kick off a 42Crunch conformance scan against the same API and attach the scan summary back to the Postman run.
+  tags:
+  - 42Crunch
+  - Integration
+  - API testing
+  - postman
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    42CRUNCH_API_KEY: 42CRUNCH_API_KEY
+    POSTMAN_API_KEY: POSTMAN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: 42crunch
+    baseUri: https://api.42crunch.com
+    description: 42Crunch API operations consumed by this integration.
+    resources:
+    - name: api-job
+      path: /api/job
+      operations:
+      - name: createjob
+        method: POST
+        description: Start the 42Crunch scan triggered from a Postman run.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-job-name
+      path: /api/job/{name}
+      operations:
+      - name: getjob
+        method: GET
+        description: Poll the scan status.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Path parameter name.
+          required: true
+    - name: api-logs-name
+      path: /api/logs/{name}
+      operations:
+      - name: getlogs
+        method: GET
+        description: Pull scan logs to attach to the Postman run record.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Path parameter name.
+          required: true
+  - type: http
+    namespace: postman
+    baseUri: https://api.getpostman.com
+    description: Postman API operations consumed by this integration.
+    resources:
+    - name: collections-collection-uid
+      path: /collections/{collection_uid}
+      operations:
+      - name: getcollection
+        method: GET
+        description: 'Postman API: getCollection'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_uid
+          in: path
+          type: string
+          description: Path parameter collection_uid.
+          required: true
+    - name: monitors-monitor-uid-run
+      path: /monitors/{monitor_uid}/run
+      operations:
+      - name: runmonitor
+        method: POST
+        description: 'Postman API: runMonitor'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: monitor_uid
+          in: path
+          type: string
+          description: Path parameter monitor_uid.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: 42crunch-postman-mcp
+    description: MCP adapter for the 42crunch-postman integration.
+    tools:
+    - name: 42crunch_postman
+      description: Execute the 42crunch postman integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: 42crunch-postman-rest
+    port: 8080
+    description: REST adapter for the 42crunch-postman integration.
+    resources:
+    - path: /42crunch-postman
+      name: 42crunch-postman
+      description: REST surface for the 42crunch-postman integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the 42crunch-postman integration.
+        call: 42crunch_postman
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

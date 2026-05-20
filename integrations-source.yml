@@ -1,0 +1,336 @@
+# Curated 42Crunch integrations for top API security / DevSecOps tooling.
+# Each entry becomes one Naftiko 1.0.0-alpha2 capability YAML in integrations/.
+# 42Crunch ops are sourced from temp/42crunch/openapi/42crunch-scand-manager.yaml
+# (API Conformance Scan Jobs Manager — listJobs, createJob, getJob, deleteJob,
+# getLogs, healthCheck on https://api.42crunch.com).
+
+# Source control / code review (2)
+- partner: github
+  name: Post 42Crunch scan results as GitHub PR review comments
+  category: Source control
+  use_case: After a 42Crunch conformance scan completes for a pull request, post the failing issues back as inline GitHub PR review comments so developers fix API security defects before merge.
+  partner_baseUri: https://api.github.com
+  partner_api: GitHub REST API
+  provider_ops:
+    - method: POST
+      path: /api/job
+      name: createJob
+      description: Start a 42Crunch conformance scan job for the PR's API definition.
+    - method: GET
+      path: /api/job/{name}
+      name: getJob
+      description: Poll the scan job status until it completes.
+    - method: GET
+      path: /api/logs/{name}
+      name: getLogs
+      description: Retrieve the scan log so issues can be parsed and posted as PR comments.
+  partner_ops:
+    - method: POST
+      path: /repos/{owner}/{repo}/pulls/{pull_number}/reviews
+      name: createReview
+    - method: POST
+      path: /repos/{owner}/{repo}/pulls/{pull_number}/comments
+      name: createReviewComment
+
+- partner: gitlab
+  name: Fail GitLab CI pipelines on 42Crunch scan violations
+  category: CI/CD
+  use_case: Run a 42Crunch conformance scan inside a GitLab CI job and fail the pipeline with structured annotations when critical API security issues are found.
+  partner_baseUri: https://gitlab.com/api/v4
+  partner_api: GitLab REST API
+  provider_ops:
+    - method: POST
+      path: /api/job
+      name: createJob
+      description: Trigger a 42Crunch scan from the GitLab pipeline.
+    - method: GET
+      path: /api/job/{name}
+      name: getJob
+      description: Poll until the scan completes.
+    - method: GET
+      path: /api/logs/{name}
+      name: getLogs
+      description: Pull scan logs to surface findings in the pipeline.
+  partner_ops:
+    - method: POST
+      path: /projects/{id}/statuses/{sha}
+      name: postCommitStatus
+    - method: POST
+      path: /projects/{id}/merge_requests/{merge_request_iid}/notes
+      name: postMRNote
+
+# CI/CD (1)
+- partner: jenkins
+  name: Gate Jenkins deployments on 42Crunch scan results
+  category: CI/CD
+  use_case: From a Jenkins pipeline, invoke 42Crunch to scan the candidate API spec and block promotion to staging when critical conformance issues exist.
+  partner_baseUri: https://jenkins.example.com
+  partner_api: Jenkins Remote Access API
+  provider_ops:
+    - method: POST
+      path: /api/job
+      name: createJob
+      description: Kick off a 42Crunch scan from the Jenkins build step.
+    - method: GET
+      path: /api/job/{name}
+      name: getJob
+      description: Poll job status from the Jenkins pipeline.
+    - method: GET
+      path: /api/logs/{name}
+      name: getLogs
+      description: Attach the scan log to the Jenkins build artifacts.
+  partner_ops:
+    - method: POST
+      path: /job/{job_name}/build
+      name: triggerBuild
+    - method: GET
+      path: /job/{job_name}/{build_number}/api/json
+      name: getBuild
+
+# Linting / style (2)
+- partner: spectral
+  name: Pair Spectral lint findings with 42Crunch conformance scans
+  category: API quality
+  use_case: Combine Stoplight Spectral OpenAPI lint output with 42Crunch runtime conformance scan results into a unified API quality + security report for a single PR.
+  partner_baseUri: https://api.stoplight.io
+  partner_api: Stoplight Spectral API
+  provider_ops:
+    - method: POST
+      path: /api/job
+      name: createJob
+      description: Run a 42Crunch scan on the same OpenAPI definition Spectral linted.
+    - method: GET
+      path: /api/job/{name}
+      name: getJob
+      description: Poll the conformance scan job.
+    - method: GET
+      path: /api/logs/{name}
+      name: getLogs
+      description: Pull scan results to merge with Spectral output.
+  partner_ops:
+    - method: POST
+      path: /v1/projects/{project_id}/linting
+      name: lintSpec
+
+- partner: stoplight
+  name: Mirror 42Crunch findings into Stoplight project notes
+  category: API design
+  use_case: When a 42Crunch scan finishes for a Stoplight-hosted OpenAPI project, post the critical issues into the project so designers can fix problems at the spec level.
+  partner_baseUri: https://api.stoplight.io
+  partner_api: Stoplight Platform API
+  provider_ops:
+    - method: POST
+      path: /api/job
+      name: createJob
+      description: Trigger a scan on the Stoplight-hosted spec.
+    - method: GET
+      path: /api/job/{name}
+      name: getJob
+      description: Poll the 42Crunch scan job.
+    - method: GET
+      path: /api/logs/{name}
+      name: getLogs
+      description: Retrieve findings to mirror into Stoplight.
+  partner_ops:
+    - method: POST
+      path: /v1/workspaces/{workspace_id}/projects/{project_id}/issues
+      name: createIssue
+
+# API testing / dev (1)
+- partner: postman
+  name: Run a 42Crunch scan from a Postman collection run
+  category: API testing
+  use_case: From a Postman collection or monitor, kick off a 42Crunch conformance scan against the same API and attach the scan summary back to the Postman run.
+  partner_baseUri: https://api.getpostman.com
+  partner_api: Postman API
+  provider_ops:
+    - method: POST
+      path: /api/job
+      name: createJob
+      description: Start the 42Crunch scan triggered from a Postman run.
+    - method: GET
+      path: /api/job/{name}
+      name: getJob
+      description: Poll the scan status.
+    - method: GET
+      path: /api/logs/{name}
+      name: getLogs
+      description: Pull scan logs to attach to the Postman run record.
+  partner_ops:
+    - method: GET
+      path: /collections/{collection_uid}
+      name: getCollection
+    - method: POST
+      path: /monitors/{monitor_uid}/run
+      name: runMonitor
+
+# Issue tracking (1)
+- partner: jira
+  name: File Jira tickets for critical 42Crunch scan failures
+  category: Issue tracking
+  use_case: When a 42Crunch scan returns critical conformance violations, open a Jira ticket assigned to the API owner with the failing checks summarized in the description.
+  partner_baseUri: https://yourcompany.atlassian.net
+  partner_api: Jira Cloud REST API
+  provider_ops:
+    - method: GET
+      path: /api/job/{name}
+      name: getJob
+      description: Read the scan job status to decide whether to file a ticket.
+    - method: GET
+      path: /api/logs/{name}
+      name: getLogs
+      description: Pull scan logs to summarize in the Jira ticket.
+  partner_ops:
+    - method: POST
+      path: /rest/api/3/issue
+      name: createIssue
+    - method: PUT
+      path: /rest/api/3/issue/{issueIdOrKey}
+      name: updateIssue
+
+# Notifications (1)
+- partner: slack
+  name: Post 42Crunch scan alerts to Slack channels
+  category: Notifications
+  use_case: When a 42Crunch scan finishes (success or failure), post a summary to the API security Slack channel with severity counts and a link to the full report.
+  partner_baseUri: https://hooks.slack.com
+  partner_api: Slack Incoming Webhooks
+  provider_ops:
+    - method: GET
+      path: /api/job/{name}
+      name: getJob
+      description: Read scan status to decide alert severity.
+    - method: GET
+      path: /api/logs/{name}
+      name: getLogs
+      description: Pull scan output to summarize in the Slack message.
+  partner_ops:
+    - method: POST
+      path: /services/{T}/{B}/{X}
+      name: postMessage
+
+# SIEM (1)
+- partner: splunk
+  name: Stream 42Crunch scan results to Splunk SIEM
+  category: SIEM
+  use_case: Forward every 42Crunch scan completion event to Splunk via HTTP Event Collector so API security findings show up alongside other security telemetry.
+  partner_baseUri: https://splunk.example.com:8088
+  partner_api: Splunk HTTP Event Collector
+  provider_ops:
+    - method: GET
+      path: /api/job
+      name: listJobs
+      description: List recent scan jobs for periodic SIEM ingest.
+    - method: GET
+      path: /api/job/{name}
+      name: getJob
+      description: Read per-job status to forward to Splunk.
+    - method: GET
+      path: /api/logs/{name}
+      name: getLogs
+      description: Pull scan logs to index in Splunk.
+  partner_ops:
+    - method: POST
+      path: /services/collector/event
+      name: postEvent
+
+# AppSec / SCA (1)
+- partner: snyk
+  name: Correlate 42Crunch API findings with Snyk dependency vulnerabilities
+  category: AppSec
+  use_case: For each repository, pair 42Crunch API conformance scan results with Snyk's open-source dependency vulnerabilities into a unified per-service risk view.
+  partner_baseUri: https://api.snyk.io
+  partner_api: Snyk REST API
+  provider_ops:
+    - method: POST
+      path: /api/job
+      name: createJob
+      description: Run a 42Crunch scan on the service's API definition.
+    - method: GET
+      path: /api/job/{name}
+      name: getJob
+      description: Poll the scan to completion.
+    - method: GET
+      path: /api/logs/{name}
+      name: getLogs
+      description: Pull scan output to correlate with Snyk issues.
+  partner_ops:
+    - method: GET
+      path: /rest/orgs/{org_id}/projects
+      name: listProjects
+    - method: GET
+      path: /rest/orgs/{org_id}/issues
+      name: listIssues
+
+# Cloud security posture (1)
+- partner: wiz
+  name: Push 42Crunch API findings into Wiz Issues
+  category: CNAPP
+  use_case: Convert critical 42Crunch conformance findings into Wiz Issues so API security risks land in the same SOC queue as cloud misconfiguration findings.
+  partner_baseUri: https://api.us1.app.wiz.io
+  partner_api: Wiz GraphQL API
+  provider_ops:
+    - method: GET
+      path: /api/job/{name}
+      name: getJob
+      description: Read scan status before creating a Wiz Issue.
+    - method: GET
+      path: /api/logs/{name}
+      name: getLogs
+      description: Pull scan output to populate the Wiz Issue description.
+  partner_ops:
+    - method: POST
+      path: /graphql
+      name: createIssue
+
+# ITSM / vulnerability management (1)
+- partner: servicenow
+  name: Open ServiceNow vulnerability tickets from 42Crunch scans
+  category: Vulnerability management
+  use_case: For each critical 42Crunch conformance violation, open a ServiceNow Vulnerability Response record assigned to the owning application service.
+  partner_baseUri: https://yourinstance.service-now.com
+  partner_api: ServiceNow Now Platform REST API
+  provider_ops:
+    - method: GET
+      path: /api/job/{name}
+      name: getJob
+      description: Read scan status to decide ticket creation.
+    - method: GET
+      path: /api/logs/{name}
+      name: getLogs
+      description: Pull scan output to populate the vulnerability record.
+  partner_ops:
+    - method: POST
+      path: /api/now/table/sn_vul_app_vulnerable_item
+      name: createVulnerableItem
+    - method: PATCH
+      path: /api/now/table/sn_vul_app_vulnerable_item/{sys_id}
+      name: updateVulnerableItem
+
+# Health / monitoring (1)
+- partner: datadog
+  name: Send 42Crunch scan health + results to Datadog
+  category: Observability
+  use_case: Emit a Datadog metric for each 42Crunch scan (duration, severity counts) and a service check from the /health endpoint so SREs can monitor the scan manager alongside the rest of the stack.
+  partner_baseUri: https://api.datadoghq.com
+  partner_api: Datadog API
+  provider_ops:
+    - method: GET
+      path: /health
+      name: healthCheck
+      description: Check the scan manager health to feed a Datadog service check.
+    - method: GET
+      path: /api/job
+      name: listJobs
+      description: Enumerate jobs to compute Datadog metrics.
+    - method: GET
+      path: /api/job/{name}
+      name: getJob
+      description: Read per-job status for the metric stream.
+  partner_ops:
+    - method: POST
+      path: /api/v1/series
+      name: submitMetrics
+    - method: POST
+      path: /api/v1/check_run
+      name: submitServiceCheck

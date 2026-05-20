@@ -1,0 +1,127 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Post 42Crunch scan alerts to Slack channels
+  description: When a 42Crunch scan finishes (success or failure), post a summary to the API security Slack channel with severity counts and a link to the full report.
+  tags:
+  - 42Crunch
+  - Integration
+  - Notifications
+  - slack
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    42CRUNCH_API_KEY: 42CRUNCH_API_KEY
+    SLACK_API_KEY: SLACK_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: 42crunch
+    baseUri: https://api.42crunch.com
+    description: 42Crunch API operations consumed by this integration.
+    resources:
+    - name: api-job-name
+      path: /api/job/{name}
+      operations:
+      - name: getjob
+        method: GET
+        description: Read scan status to decide alert severity.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Path parameter name.
+          required: true
+    - name: api-logs-name
+      path: /api/logs/{name}
+      operations:
+      - name: getlogs
+        method: GET
+        description: Pull scan output to summarize in the Slack message.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Path parameter name.
+          required: true
+  - type: http
+    namespace: slack
+    baseUri: https://hooks.slack.com
+    description: Slack Incoming Webhooks operations consumed by this integration.
+    resources:
+    - name: services-t-b-x
+      path: /services/{T}/{B}/{X}
+      operations:
+      - name: postmessage
+        method: POST
+        description: 'Slack Incoming Webhooks: postMessage'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: T
+          in: path
+          type: string
+          description: Path parameter T.
+          required: true
+        - name: B
+          in: path
+          type: string
+          description: Path parameter B.
+          required: true
+        - name: X
+          in: path
+          type: string
+          description: Path parameter X.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: 42crunch-slack-mcp
+    description: MCP adapter for the 42crunch-slack integration.
+    tools:
+    - name: 42crunch_slack
+      description: Execute the 42crunch slack integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: 42crunch-slack-rest
+    port: 8080
+    description: REST adapter for the 42crunch-slack integration.
+    resources:
+    - path: /42crunch-slack
+      name: 42crunch-slack
+      description: REST surface for the 42crunch-slack integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the 42crunch-slack integration.
+        call: 42crunch_slack
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

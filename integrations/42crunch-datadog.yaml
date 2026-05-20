@@ -1,0 +1,136 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Send 42Crunch scan health + results to Datadog
+  description: Emit a Datadog metric for each 42Crunch scan (duration, severity counts) and a service check from the /health endpoint so SREs can monitor the scan manager alongside the rest of the stack.
+  tags:
+  - 42Crunch
+  - Integration
+  - Observability
+  - datadog
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    42CRUNCH_API_KEY: 42CRUNCH_API_KEY
+    DATADOG_API_KEY: DATADOG_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: 42crunch
+    baseUri: https://api.42crunch.com
+    description: 42Crunch API operations consumed by this integration.
+    resources:
+    - name: health
+      path: /health
+      operations:
+      - name: healthcheck
+        method: GET
+        description: Check the scan manager health to feed a Datadog service check.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters: []
+    - name: api-job
+      path: /api/job
+      operations:
+      - name: listjobs
+        method: GET
+        description: Enumerate jobs to compute Datadog metrics.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters: []
+    - name: api-job-name
+      path: /api/job/{name}
+      operations:
+      - name: getjob
+        method: GET
+        description: Read per-job status for the metric stream.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Path parameter name.
+          required: true
+  - type: http
+    namespace: datadog
+    baseUri: https://api.datadoghq.com
+    description: Datadog API operations consumed by this integration.
+    resources:
+    - name: api-v1-series
+      path: /api/v1/series
+      operations:
+      - name: submitmetrics
+        method: POST
+        description: 'Datadog API: submitMetrics'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-v1-check-run
+      path: /api/v1/check_run
+      operations:
+      - name: submitservicecheck
+        method: POST
+        description: 'Datadog API: submitServiceCheck'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: 42crunch-datadog-mcp
+    description: MCP adapter for the 42crunch-datadog integration.
+    tools:
+    - name: 42crunch_datadog
+      description: Execute the 42crunch datadog integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: 42crunch-datadog-rest
+    port: 8080
+    description: REST adapter for the 42crunch-datadog integration.
+    resources:
+    - path: /42crunch-datadog
+      name: 42crunch-datadog
+      description: REST surface for the 42crunch-datadog integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the 42crunch-datadog integration.
+        call: 42crunch_datadog
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

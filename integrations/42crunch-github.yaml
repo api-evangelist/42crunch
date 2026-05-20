@@ -1,0 +1,176 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Post 42Crunch scan results as GitHub PR review comments
+  description: After a 42Crunch conformance scan completes for a pull request, post the failing issues back as inline GitHub PR review comments so developers fix API security defects before merge.
+  tags:
+  - 42Crunch
+  - Integration
+  - Source control
+  - github
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    42CRUNCH_API_KEY: 42CRUNCH_API_KEY
+    GITHUB_API_KEY: GITHUB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: 42crunch
+    baseUri: https://api.42crunch.com
+    description: 42Crunch API operations consumed by this integration.
+    resources:
+    - name: api-job
+      path: /api/job
+      operations:
+      - name: createjob
+        method: POST
+        description: Start a 42Crunch conformance scan job for the PR's API definition.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-job-name
+      path: /api/job/{name}
+      operations:
+      - name: getjob
+        method: GET
+        description: Poll the scan job status until it completes.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Path parameter name.
+          required: true
+    - name: api-logs-name
+      path: /api/logs/{name}
+      operations:
+      - name: getlogs
+        method: GET
+        description: Retrieve the scan log so issues can be parsed and posted as PR comments.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Path parameter name.
+          required: true
+  - type: http
+    namespace: github
+    baseUri: https://api.github.com
+    description: GitHub REST API operations consumed by this integration.
+    resources:
+    - name: repos-owner-repo-pulls-pull-number-reviews
+      path: /repos/{owner}/{repo}/pulls/{pull_number}/reviews
+      operations:
+      - name: createreview
+        method: POST
+        description: 'GitHub REST API: createReview'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: owner
+          in: path
+          type: string
+          description: Path parameter owner.
+          required: true
+        - name: repo
+          in: path
+          type: string
+          description: Path parameter repo.
+          required: true
+        - name: pull_number
+          in: path
+          type: string
+          description: Path parameter pull_number.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: repos-owner-repo-pulls-pull-number-comments
+      path: /repos/{owner}/{repo}/pulls/{pull_number}/comments
+      operations:
+      - name: createreviewcomment
+        method: POST
+        description: 'GitHub REST API: createReviewComment'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: owner
+          in: path
+          type: string
+          description: Path parameter owner.
+          required: true
+        - name: repo
+          in: path
+          type: string
+          description: Path parameter repo.
+          required: true
+        - name: pull_number
+          in: path
+          type: string
+          description: Path parameter pull_number.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: 42crunch-github-mcp
+    description: MCP adapter for the 42crunch-github integration.
+    tools:
+    - name: 42crunch_github
+      description: Execute the 42crunch github integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: 42crunch-github-rest
+    port: 8080
+    description: REST adapter for the 42crunch-github integration.
+    resources:
+    - path: /42crunch-github
+      name: 42crunch-github
+      description: REST surface for the 42crunch-github integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the 42crunch-github integration.
+        call: 42crunch_github
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

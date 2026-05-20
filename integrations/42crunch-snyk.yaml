@@ -1,0 +1,146 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Correlate 42Crunch API findings with Snyk dependency vulnerabilities
+  description: For each repository, pair 42Crunch API conformance scan results with Snyk's open-source dependency vulnerabilities into a unified per-service risk view.
+  tags:
+  - 42Crunch
+  - Integration
+  - AppSec
+  - snyk
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    42CRUNCH_API_KEY: 42CRUNCH_API_KEY
+    SNYK_API_KEY: SNYK_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: 42crunch
+    baseUri: https://api.42crunch.com
+    description: 42Crunch API operations consumed by this integration.
+    resources:
+    - name: api-job
+      path: /api/job
+      operations:
+      - name: createjob
+        method: POST
+        description: Run a 42Crunch scan on the service's API definition.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-job-name
+      path: /api/job/{name}
+      operations:
+      - name: getjob
+        method: GET
+        description: Poll the scan to completion.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Path parameter name.
+          required: true
+    - name: api-logs-name
+      path: /api/logs/{name}
+      operations:
+      - name: getlogs
+        method: GET
+        description: Pull scan output to correlate with Snyk issues.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Path parameter name.
+          required: true
+  - type: http
+    namespace: snyk
+    baseUri: https://api.snyk.io
+    description: Snyk REST API operations consumed by this integration.
+    resources:
+    - name: rest-orgs-org-id-projects
+      path: /rest/orgs/{org_id}/projects
+      operations:
+      - name: listprojects
+        method: GET
+        description: 'Snyk REST API: listProjects'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: org_id
+          in: path
+          type: string
+          description: Path parameter org_id.
+          required: true
+    - name: rest-orgs-org-id-issues
+      path: /rest/orgs/{org_id}/issues
+      operations:
+      - name: listissues
+        method: GET
+        description: 'Snyk REST API: listIssues'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: org_id
+          in: path
+          type: string
+          description: Path parameter org_id.
+          required: true
+  exposes:
+  - type: mcp
+    namespace: 42crunch-snyk-mcp
+    description: MCP adapter for the 42crunch-snyk integration.
+    tools:
+    - name: 42crunch_snyk
+      description: Execute the 42crunch snyk integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: 42crunch-snyk-rest
+    port: 8080
+    description: REST adapter for the 42crunch-snyk integration.
+    resources:
+    - path: /42crunch-snyk
+      name: 42crunch-snyk
+      description: REST surface for the 42crunch-snyk integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the 42crunch-snyk integration.
+        call: 42crunch_snyk
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

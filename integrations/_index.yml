@@ -1,0 +1,65 @@
+- slug: 42crunch-github
+  label: Post 42Crunch scan results as GitHub PR review comments
+  partner: github
+  category: Source control
+  use_case: After a 42Crunch conformance scan completes for a pull request, post the failing issues back as inline GitHub PR review comments so developers fix API security defects before merge.
+- slug: 42crunch-gitlab
+  label: Fail GitLab CI pipelines on 42Crunch scan violations
+  partner: gitlab
+  category: CI/CD
+  use_case: Run a 42Crunch conformance scan inside a GitLab CI job and fail the pipeline with structured annotations when critical API security issues are found.
+- slug: 42crunch-jenkins
+  label: Gate Jenkins deployments on 42Crunch scan results
+  partner: jenkins
+  category: CI/CD
+  use_case: From a Jenkins pipeline, invoke 42Crunch to scan the candidate API spec and block promotion to staging when critical conformance issues exist.
+- slug: 42crunch-spectral
+  label: Pair Spectral lint findings with 42Crunch conformance scans
+  partner: spectral
+  category: API quality
+  use_case: Combine Stoplight Spectral OpenAPI lint output with 42Crunch runtime conformance scan results into a unified API quality + security report for a single PR.
+- slug: 42crunch-stoplight
+  label: Mirror 42Crunch findings into Stoplight project notes
+  partner: stoplight
+  category: API design
+  use_case: When a 42Crunch scan finishes for a Stoplight-hosted OpenAPI project, post the critical issues into the project so designers can fix problems at the spec level.
+- slug: 42crunch-postman
+  label: Run a 42Crunch scan from a Postman collection run
+  partner: postman
+  category: API testing
+  use_case: From a Postman collection or monitor, kick off a 42Crunch conformance scan against the same API and attach the scan summary back to the Postman run.
+- slug: 42crunch-jira
+  label: File Jira tickets for critical 42Crunch scan failures
+  partner: jira
+  category: Issue tracking
+  use_case: When a 42Crunch scan returns critical conformance violations, open a Jira ticket assigned to the API owner with the failing checks summarized in the description.
+- slug: 42crunch-slack
+  label: Post 42Crunch scan alerts to Slack channels
+  partner: slack
+  category: Notifications
+  use_case: When a 42Crunch scan finishes (success or failure), post a summary to the API security Slack channel with severity counts and a link to the full report.
+- slug: 42crunch-splunk
+  label: Stream 42Crunch scan results to Splunk SIEM
+  partner: splunk
+  category: SIEM
+  use_case: Forward every 42Crunch scan completion event to Splunk via HTTP Event Collector so API security findings show up alongside other security telemetry.
+- slug: 42crunch-snyk
+  label: Correlate 42Crunch API findings with Snyk dependency vulnerabilities
+  partner: snyk
+  category: AppSec
+  use_case: For each repository, pair 42Crunch API conformance scan results with Snyk's open-source dependency vulnerabilities into a unified per-service risk view.
+- slug: 42crunch-wiz
+  label: Push 42Crunch API findings into Wiz Issues
+  partner: wiz
+  category: CNAPP
+  use_case: Convert critical 42Crunch conformance findings into Wiz Issues so API security risks land in the same SOC queue as cloud misconfiguration findings.
+- slug: 42crunch-servicenow
+  label: Open ServiceNow vulnerability tickets from 42Crunch scans
+  partner: servicenow
+  category: Vulnerability management
+  use_case: For each critical 42Crunch conformance violation, open a ServiceNow Vulnerability Response record assigned to the owning application service.
+- slug: 42crunch-datadog
+  label: Send 42Crunch scan health + results to Datadog
+  partner: datadog
+  category: Observability
+  use_case: Emit a Datadog metric for each 42Crunch scan (duration, severity counts) and a service check from the /health endpoint so SREs can monitor the scan manager alongside the rest of the stack.

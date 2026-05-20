@@ -1,0 +1,124 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Stream 42Crunch scan results to Splunk SIEM
+  description: Forward every 42Crunch scan completion event to Splunk via HTTP Event Collector so API security findings show up alongside other security telemetry.
+  tags:
+  - 42Crunch
+  - Integration
+  - SIEM
+  - splunk
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    42CRUNCH_API_KEY: 42CRUNCH_API_KEY
+    SPLUNK_API_KEY: SPLUNK_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: 42crunch
+    baseUri: https://api.42crunch.com
+    description: 42Crunch API operations consumed by this integration.
+    resources:
+    - name: api-job
+      path: /api/job
+      operations:
+      - name: listjobs
+        method: GET
+        description: List recent scan jobs for periodic SIEM ingest.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters: []
+    - name: api-job-name
+      path: /api/job/{name}
+      operations:
+      - name: getjob
+        method: GET
+        description: Read per-job status to forward to Splunk.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Path parameter name.
+          required: true
+    - name: api-logs-name
+      path: /api/logs/{name}
+      operations:
+      - name: getlogs
+        method: GET
+        description: Pull scan logs to index in Splunk.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Path parameter name.
+          required: true
+  - type: http
+    namespace: splunk
+    baseUri: https://splunk.example.com:8088
+    description: Splunk HTTP Event Collector operations consumed by this integration.
+    resources:
+    - name: services-collector-event
+      path: /services/collector/event
+      operations:
+      - name: postevent
+        method: POST
+        description: 'Splunk HTTP Event Collector: postEvent'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: 42crunch-splunk-mcp
+    description: MCP adapter for the 42crunch-splunk integration.
+    tools:
+    - name: 42crunch_splunk
+      description: Execute the 42crunch splunk integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: 42crunch-splunk-rest
+    port: 8080
+    description: REST adapter for the 42crunch-splunk integration.
+    resources:
+    - path: /42crunch-splunk
+      name: 42crunch-splunk
+      description: REST surface for the 42crunch-splunk integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the 42crunch-splunk integration.
+        call: 42crunch_splunk
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

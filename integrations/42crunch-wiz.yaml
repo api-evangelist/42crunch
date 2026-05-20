@@ -1,0 +1,112 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Push 42Crunch API findings into Wiz Issues
+  description: Convert critical 42Crunch conformance findings into Wiz Issues so API security risks land in the same SOC queue as cloud misconfiguration findings.
+  tags:
+  - 42Crunch
+  - Integration
+  - CNAPP
+  - wiz
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    42CRUNCH_API_KEY: 42CRUNCH_API_KEY
+    WIZ_API_KEY: WIZ_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: 42crunch
+    baseUri: https://api.42crunch.com
+    description: 42Crunch API operations consumed by this integration.
+    resources:
+    - name: api-job-name
+      path: /api/job/{name}
+      operations:
+      - name: getjob
+        method: GET
+        description: Read scan status before creating a Wiz Issue.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Path parameter name.
+          required: true
+    - name: api-logs-name
+      path: /api/logs/{name}
+      operations:
+      - name: getlogs
+        method: GET
+        description: Pull scan output to populate the Wiz Issue description.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Path parameter name.
+          required: true
+  - type: http
+    namespace: wiz
+    baseUri: https://api.us1.app.wiz.io
+    description: Wiz GraphQL API operations consumed by this integration.
+    resources:
+    - name: graphql
+      path: /graphql
+      operations:
+      - name: createissue
+        method: POST
+        description: 'Wiz GraphQL API: createIssue'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: 42crunch-wiz-mcp
+    description: MCP adapter for the 42crunch-wiz integration.
+    tools:
+    - name: 42crunch_wiz
+      description: Execute the 42crunch wiz integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: 42crunch-wiz-rest
+    port: 8080
+    description: REST adapter for the 42crunch-wiz integration.
+    resources:
+    - path: /42crunch-wiz
+      name: 42crunch-wiz
+      description: REST surface for the 42crunch-wiz integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the 42crunch-wiz integration.
+        call: 42crunch_wiz
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

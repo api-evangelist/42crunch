@@ -1,0 +1,134 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: File Jira tickets for critical 42Crunch scan failures
+  description: When a 42Crunch scan returns critical conformance violations, open a Jira ticket assigned to the API owner with the failing checks summarized in the description.
+  tags:
+  - 42Crunch
+  - Integration
+  - Issue tracking
+  - jira
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    42CRUNCH_API_KEY: 42CRUNCH_API_KEY
+    JIRA_API_KEY: JIRA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: 42crunch
+    baseUri: https://api.42crunch.com
+    description: 42Crunch API operations consumed by this integration.
+    resources:
+    - name: api-job-name
+      path: /api/job/{name}
+      operations:
+      - name: getjob
+        method: GET
+        description: Read the scan job status to decide whether to file a ticket.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Path parameter name.
+          required: true
+    - name: api-logs-name
+      path: /api/logs/{name}
+      operations:
+      - name: getlogs
+        method: GET
+        description: Pull scan logs to summarize in the Jira ticket.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Path parameter name.
+          required: true
+  - type: http
+    namespace: jira
+    baseUri: https://yourcompany.atlassian.net
+    description: Jira Cloud REST API operations consumed by this integration.
+    resources:
+    - name: rest-api-3-issue
+      path: /rest/api/3/issue
+      operations:
+      - name: createissue
+        method: POST
+        description: 'Jira Cloud REST API: createIssue'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: rest-api-3-issue-issueidorkey
+      path: /rest/api/3/issue/{issueIdOrKey}
+      operations:
+      - name: updateissue
+        method: PUT
+        description: 'Jira Cloud REST API: updateIssue'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: issueIdOrKey
+          in: path
+          type: string
+          description: Path parameter issueIdOrKey.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: 42crunch-jira-mcp
+    description: MCP adapter for the 42crunch-jira integration.
+    tools:
+    - name: 42crunch_jira
+      description: Execute the 42crunch jira integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: 42crunch-jira-rest
+    port: 8080
+    description: REST adapter for the 42crunch-jira integration.
+    resources:
+    - path: /42crunch-jira
+      name: 42crunch-jira
+      description: REST surface for the 42crunch-jira integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the 42crunch-jira integration.
+        call: 42crunch_jira
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

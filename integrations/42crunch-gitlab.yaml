@@ -1,0 +1,166 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Fail GitLab CI pipelines on 42Crunch scan violations
+  description: Run a 42Crunch conformance scan inside a GitLab CI job and fail the pipeline with structured annotations when critical API security issues are found.
+  tags:
+  - 42Crunch
+  - Integration
+  - CI/CD
+  - gitlab
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    42CRUNCH_API_KEY: 42CRUNCH_API_KEY
+    GITLAB_API_KEY: GITLAB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: 42crunch
+    baseUri: https://api.42crunch.com
+    description: 42Crunch API operations consumed by this integration.
+    resources:
+    - name: api-job
+      path: /api/job
+      operations:
+      - name: createjob
+        method: POST
+        description: Trigger a 42Crunch scan from the GitLab pipeline.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-job-name
+      path: /api/job/{name}
+      operations:
+      - name: getjob
+        method: GET
+        description: Poll until the scan completes.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Path parameter name.
+          required: true
+    - name: api-logs-name
+      path: /api/logs/{name}
+      operations:
+      - name: getlogs
+        method: GET
+        description: Pull scan logs to surface findings in the pipeline.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Path parameter name.
+          required: true
+  - type: http
+    namespace: gitlab
+    baseUri: https://gitlab.com/api/v4
+    description: GitLab REST API operations consumed by this integration.
+    resources:
+    - name: projects-id-statuses-sha
+      path: /projects/{id}/statuses/{sha}
+      operations:
+      - name: postcommitstatus
+        method: POST
+        description: 'GitLab REST API: postCommitStatus'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: Path parameter id.
+          required: true
+        - name: sha
+          in: path
+          type: string
+          description: Path parameter sha.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: projects-id-merge-requests-merge-request-iid-notes
+      path: /projects/{id}/merge_requests/{merge_request_iid}/notes
+      operations:
+      - name: postmrnote
+        method: POST
+        description: 'GitLab REST API: postMRNote'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: Path parameter id.
+          required: true
+        - name: merge_request_iid
+          in: path
+          type: string
+          description: Path parameter merge_request_iid.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: 42crunch-gitlab-mcp
+    description: MCP adapter for the 42crunch-gitlab integration.
+    tools:
+    - name: 42crunch_gitlab
+      description: Execute the 42crunch gitlab integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: 42crunch-gitlab-rest
+    port: 8080
+    description: REST adapter for the 42crunch-gitlab integration.
+    resources:
+    - path: /42crunch-gitlab
+      name: 42crunch-gitlab
+      description: REST surface for the 42crunch-gitlab integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the 42crunch-gitlab integration.
+        call: 42crunch_gitlab
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

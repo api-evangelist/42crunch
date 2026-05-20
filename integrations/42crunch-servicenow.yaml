@@ -1,0 +1,134 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Open ServiceNow vulnerability tickets from 42Crunch scans
+  description: For each critical 42Crunch conformance violation, open a ServiceNow Vulnerability Response record assigned to the owning application service.
+  tags:
+  - 42Crunch
+  - Integration
+  - Vulnerability management
+  - servicenow
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    42CRUNCH_API_KEY: 42CRUNCH_API_KEY
+    SERVICENOW_API_KEY: SERVICENOW_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: 42crunch
+    baseUri: https://api.42crunch.com
+    description: 42Crunch API operations consumed by this integration.
+    resources:
+    - name: api-job-name
+      path: /api/job/{name}
+      operations:
+      - name: getjob
+        method: GET
+        description: Read scan status to decide ticket creation.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Path parameter name.
+          required: true
+    - name: api-logs-name
+      path: /api/logs/{name}
+      operations:
+      - name: getlogs
+        method: GET
+        description: Pull scan output to populate the vulnerability record.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Path parameter name.
+          required: true
+  - type: http
+    namespace: servicenow
+    baseUri: https://yourinstance.service-now.com
+    description: ServiceNow Now Platform REST API operations consumed by this integration.
+    resources:
+    - name: api-now-table-sn-vul-app-vulnerable-item
+      path: /api/now/table/sn_vul_app_vulnerable_item
+      operations:
+      - name: createvulnerableitem
+        method: POST
+        description: 'ServiceNow Now Platform REST API: createVulnerableItem'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-now-table-sn-vul-app-vulnerable-item-sys-id
+      path: /api/now/table/sn_vul_app_vulnerable_item/{sys_id}
+      operations:
+      - name: updatevulnerableitem
+        method: PATCH
+        description: 'ServiceNow Now Platform REST API: updateVulnerableItem'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: sys_id
+          in: path
+          type: string
+          description: Path parameter sys_id.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: 42crunch-servicenow-mcp
+    description: MCP adapter for the 42crunch-servicenow integration.
+    tools:
+    - name: 42crunch_servicenow
+      description: Execute the 42crunch servicenow integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: 42crunch-servicenow-rest
+    port: 8080
+    description: REST adapter for the 42crunch-servicenow integration.
+    resources:
+    - path: /42crunch-servicenow
+      name: 42crunch-servicenow
+      description: REST surface for the 42crunch-servicenow integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the 42crunch-servicenow integration.
+        call: 42crunch_servicenow
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
