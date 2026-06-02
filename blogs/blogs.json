@@ -2,13 +2,13 @@
   "repo": "42crunch",
   "feeds": [
     {
-      "source": "https://42crunch.com/blog/",
-      "feed_url": "",
+      "source": "https://docs.42crunch.com/latest/content/home.htm",
+      "feed_url": "https://docs.42crunch.com/latest/content/home.htm",
       "title": "",
       "saved": 0,
-      "error": "no_feed"
+      "method": "none"
     }
   ],
-  "fetched": "2026-05-17T20:48:52Z",
+  "fetched": "2026-06-01T23:35:02Z",
   "post_count": 0
 }
