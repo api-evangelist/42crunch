@@ -99,25 +99,25 @@ apis:
     type: JSONStructure
     title: Error Structure
   - url: examples/scand-manager-job-name-example.json
-    type: Example
+    type: Examples
     title: Job Name Example
   - url: examples/scand-manager-jobs-example.json
-    type: Example
+    type: Examples
     title: Jobs Example
   - url: examples/scand-manager-job-spec-example.json
-    type: Example
+    type: Examples
     title: Job Spec Example
   - url: examples/scand-manager-job-status-example.json
-    type: Example
+    type: Examples
     title: Job Status Example
   - url: examples/scand-manager-error-example.json
-    type: Example
+    type: Examples
     title: Error Example
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/scand-manager-health.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/scand-manager-jobs.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/scand-manager-logs.yaml
   description: The 42Crunch Scand Manager provides a convenient way to run 42Crunch API Conformance Scans on-premises as Kubernetes Jobs. It manages the full lifecycle of scan jobs including creation, status monitoring, log retrieval, and deletion.
 common:
