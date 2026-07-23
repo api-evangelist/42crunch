@@ -1,0 +1,82 @@
+openapi: 3.0.0
+info:
+  title: 42Crunch API Conformance Scan Jobs Manager Health Logs API
+  description: API Conformance Scan Jobs Manager provides a convenient way to run 42Crunch API Conformance Scan on-premises as a Kubernetes Job in your Kubernetes cluster. It manages scan job lifecycle including creation, status monitoring, log retrieval, and deletion.
+  version: 1.0.0
+  x-generated-from: documentation
+  contact:
+    name: 42Crunch Support
+    url: https://support.42crunch.com/hc/en-us
+servers:
+- description: Local server
+  url: http://localhost:8090/
+tags:
+- name: Logs
+  description: Access job execution logs
+paths:
+  /api/logs/{name}:
+    get:
+      summary: 42Crunch Get Scan Job Logs
+      description: Retrieve the execution logs for a specific conformance scan job.
+      operationId: getLogs
+      tags:
+      - Logs
+      parameters:
+      - in: path
+        required: true
+        name: name
+        description: The name of the scan job whose logs should be retrieved
+        schema:
+          $ref: '#/components/schemas/JobName'
+        example: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
+      responses:
+        '200':
+          description: OK - Job logs returned as plain text
+          content:
+            text/plain:
+              schema:
+                type: string
+                minLength: 0
+                maxLength: 104857600
+                example: 'Starting API conformance scan...
+
+                  Scan completed successfully.'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                GetLogs400Example:
+                  summary: Default getLogs 400 response
+                  x-microcks-default: true
+                  value:
+                    error: Job not found
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    JobName:
+      type: string
+      description: Unique name identifier for a scan job, prefixed with 'scand-'
+      pattern: ^scand-[0-9a-zA-Z-]{1,36}$
+      maxLength: 42
+      minLength: 7
+      example: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
+    Error:
+      type: object
+      description: Error response from the API
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          maxLength: 1024
+          minLength: 1
+          pattern: ^\P{Cc}+$
+          example: Job not found
+      additionalProperties: false
+      required:
+      - error
+x-42c-no-authentication: true

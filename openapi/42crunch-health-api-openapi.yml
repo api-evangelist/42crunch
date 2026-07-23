@@ -1,0 +1,77 @@
+openapi: 3.0.0
+info:
+  title: 42Crunch API Conformance Scan Jobs Manager Health API
+  description: API Conformance Scan Jobs Manager provides a convenient way to run 42Crunch API Conformance Scan on-premises as a Kubernetes Job in your Kubernetes cluster. It manages scan job lifecycle including creation, status monitoring, log retrieval, and deletion.
+  version: 1.0.0
+  x-generated-from: documentation
+  contact:
+    name: 42Crunch Support
+    url: https://support.42crunch.com/hc/en-us
+servers:
+- description: Local server
+  url: http://localhost:8090/
+tags:
+- name: Health
+  description: Service health check
+paths:
+  /health:
+    get:
+      summary: 42Crunch Health Check
+      description: Check the health status of the scan manager service.
+      operationId: healthCheck
+      tags:
+      - Health
+      responses:
+        '200':
+          description: OK - Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - OK
+                    example: OK
+                additionalProperties: false
+                required:
+                - status
+              examples:
+                HealthCheck200Example:
+                  summary: Default healthCheck 200 response
+                  x-microcks-default: true
+                  value:
+                    status: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                HealthCheck400Example:
+                  summary: Default healthCheck 400 response
+                  x-microcks-default: true
+                  value:
+                    error: Service unavailable
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Error:
+      type: object
+      description: Error response from the API
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          maxLength: 1024
+          minLength: 1
+          pattern: ^\P{Cc}+$
+          example: Job not found
+      additionalProperties: false
+      required:
+      - error
+x-42c-no-authentication: true
