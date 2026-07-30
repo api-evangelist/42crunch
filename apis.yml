@@ -2,7 +2,19 @@ aid: 42crunch
 url: https://raw.githubusercontent.com/api-evangelist/42crunch/refs/heads/main/apis.yml
 name: 42Crunch
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Freemium
+  confidence: medium
+  source:
+  - plans
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/42crunch.png
 tags:
 - API Security
 - Platform
@@ -30,7 +42,11 @@ apis:
     type: APIReference
   - url: graphql/42crunch-graphql.md
     type: GraphQL
-  description: The 42Crunch API Security Audit performs automated static analysis of API definitions (OpenAPI 2, 3.0, 3.1 and GraphQL), running over 200 checks across format validation, data definition quality, and security analysis. APIs are scored 0-100 with recommendations to reach 70+ before runtime protection is applied. Integrates with CI/CD pipelines for continuous monitoring.
+  description: >-
+    The 42Crunch API Security Audit performs automated static analysis of API definitions (OpenAPI 2,
+    3.0, 3.1 and GraphQL), running over 200 checks across format validation, data definition quality,
+    and security analysis. APIs are scored 0-100 with recommendations to reach 70+ before runtime protection
+    is applied. Integrates with CI/CD pipelines for continuous monitoring.
 - aid: 42crunch:42crunch-api-scan
   name: 42Crunch API Scan
   tags:
@@ -42,7 +58,11 @@ apis:
   properties:
   - url: https://docs.42crunch.com/latest/content/home.htm
     type: Documentation
-  description: 42Crunch API Scan performs dynamic API security testing (DAST) that evaluates runtime API behavior against its OpenAPI specification. It tests how well an API adheres to its contract and identifies vulnerabilities that only appear at runtime. Supports integration with CI/CD pipelines and Kubernetes via the scand-manager Kubernetes wrapper.
+  description: >-
+    42Crunch API Scan performs dynamic API security testing (DAST) that evaluates runtime API behavior
+    against its OpenAPI specification. It tests how well an API adheres to its contract and identifies
+    vulnerabilities that only appear at runtime. Supports integration with CI/CD pipelines and Kubernetes
+    via the scand-manager Kubernetes wrapper.
 - aid: 42crunch:42crunch-api-protection
   name: 42Crunch API Protection
   tags:
@@ -54,72 +74,151 @@ apis:
   properties:
   - url: https://docs.42crunch.com/latest/content/home.htm
     type: Documentation
-  description: 42Crunch API Protection deploys an API-native micro firewall (API Firewall) that provides runtime defense against API attacks. The firewall is tailor-made for each API based on its OpenAPI specification and enforces API contract compliance in real time, blocking malformed requests and unauthorized access.
-- aid: 42crunch:42crunch-scand-manager
-  name: 42Crunch API Conformance Scan Jobs Manager
+  description: >-
+    42Crunch API Protection deploys an API-native micro firewall (API Firewall) that provides runtime
+    defense against API attacks. The firewall is tailor-made for each API based on its OpenAPI specification
+    and enforces API contract compliance in real time, blocking malformed requests and unauthorized access.
+- aid: 42crunch:42crunch-health-api
+  name: 42Crunch Health API
+  description: Service health check
+  humanURL: https://docs.42crunch.com/latest/content/concepts/api_contract_security_audit.htm
   tags:
-  - API Security
-  - Kubernetes
-  - Conformance Scanning
-  - DevSecOps
-  humanURL: https://github.com/42Crunch/scand-manager
+  - Health
   properties:
-  - url: https://github.com/42Crunch/scand-manager
-    type: Documentation
-  - url: openapi/42crunch-scand-manager.yaml
-    type: OpenAPI
-  - url: json-schema/scand-manager-job-name-schema.json
-    type: JSONSchema
-    title: Job Name Schema
-  - url: json-schema/scand-manager-jobs-schema.json
-    type: JSONSchema
-    title: Jobs Schema
-  - url: json-schema/scand-manager-job-spec-schema.json
-    type: JSONSchema
-    title: Job Spec Schema
-  - url: json-schema/scand-manager-job-status-schema.json
-    type: JSONSchema
-    title: Job Status Schema
-  - url: json-schema/scand-manager-error-schema.json
-    type: JSONSchema
-    title: Error Schema
-  - url: json-structure/scand-manager-job-name-structure.json
-    type: JSONStructure
-    title: Job Name Structure
-  - url: json-structure/scand-manager-jobs-structure.json
-    type: JSONStructure
-    title: Jobs Structure
-  - url: json-structure/scand-manager-job-spec-structure.json
-    type: JSONStructure
-    title: Job Spec Structure
-  - url: json-structure/scand-manager-job-status-structure.json
-    type: JSONStructure
-    title: Job Status Structure
-  - url: json-structure/scand-manager-error-structure.json
-    type: JSONStructure
-    title: Error Structure
-  - url: examples/scand-manager-job-name-example.json
-    type: Examples
-    title: Job Name Example
-  - url: examples/scand-manager-jobs-example.json
-    type: Examples
-    title: Jobs Example
-  - url: examples/scand-manager-job-spec-example.json
-    type: Examples
-    title: Job Spec Example
-  - url: examples/scand-manager-job-status-example.json
-    type: Examples
-    title: Job Status Example
-  - url: examples/scand-manager-error-example.json
-    type: Examples
-    title: Error Example
+  - type: OpenAPI
+    url: openapi/42crunch-health-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/42Crunch/scand-manager
+  - type: JSONSchema
+    url: json-schema/scand-manager-job-name-schema.json
+  - type: JSONSchema
+    url: json-schema/scand-manager-jobs-schema.json
+  - type: JSONSchema
+    url: json-schema/scand-manager-job-spec-schema.json
+  - type: JSONSchema
+    url: json-schema/scand-manager-job-status-schema.json
+  - type: JSONSchema
+    url: json-schema/scand-manager-error-schema.json
+  - type: JSONStructure
+    url: json-structure/scand-manager-job-name-structure.json
+  - type: JSONStructure
+    url: json-structure/scand-manager-jobs-structure.json
+  - type: JSONStructure
+    url: json-structure/scand-manager-job-spec-structure.json
+  - type: JSONStructure
+    url: json-structure/scand-manager-job-status-structure.json
+  - type: JSONStructure
+    url: json-structure/scand-manager-error-structure.json
+  - type: Examples
+    url: examples/scand-manager-job-name-example.json
+  - type: Examples
+    url: examples/scand-manager-jobs-example.json
+  - type: Examples
+    url: examples/scand-manager-job-spec-example.json
+  - type: Examples
+    url: examples/scand-manager-job-status-example.json
+  - type: Examples
+    url: examples/scand-manager-error-example.json
   - type: X-NaftikoCapability
     url: capabilities/scand-manager-health.yaml
   - type: X-NaftikoCapability
     url: capabilities/scand-manager-jobs.yaml
   - type: X-NaftikoCapability
     url: capabilities/scand-manager-logs.yaml
-  description: The 42Crunch Scand Manager provides a convenient way to run 42Crunch API Conformance Scans on-premises as Kubernetes Jobs. It manages the full lifecycle of scan jobs including creation, status monitoring, log retrieval, and deletion.
+- aid: 42crunch:42crunch-jobs-api
+  name: 42Crunch Jobs API
+  description: Manage API conformance scan jobs on Kubernetes
+  humanURL: https://docs.42crunch.com/latest/content/concepts/api_contract_security_audit.htm
+  tags:
+  - Jobs
+  properties:
+  - type: OpenAPI
+    url: openapi/42crunch-jobs-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/42Crunch/scand-manager
+  - type: JSONSchema
+    url: json-schema/scand-manager-job-name-schema.json
+  - type: JSONSchema
+    url: json-schema/scand-manager-jobs-schema.json
+  - type: JSONSchema
+    url: json-schema/scand-manager-job-spec-schema.json
+  - type: JSONSchema
+    url: json-schema/scand-manager-job-status-schema.json
+  - type: JSONSchema
+    url: json-schema/scand-manager-error-schema.json
+  - type: JSONStructure
+    url: json-structure/scand-manager-job-name-structure.json
+  - type: JSONStructure
+    url: json-structure/scand-manager-jobs-structure.json
+  - type: JSONStructure
+    url: json-structure/scand-manager-job-spec-structure.json
+  - type: JSONStructure
+    url: json-structure/scand-manager-job-status-structure.json
+  - type: JSONStructure
+    url: json-structure/scand-manager-error-structure.json
+  - type: Examples
+    url: examples/scand-manager-job-name-example.json
+  - type: Examples
+    url: examples/scand-manager-jobs-example.json
+  - type: Examples
+    url: examples/scand-manager-job-spec-example.json
+  - type: Examples
+    url: examples/scand-manager-job-status-example.json
+  - type: Examples
+    url: examples/scand-manager-error-example.json
+  - type: X-NaftikoCapability
+    url: capabilities/scand-manager-health.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/scand-manager-jobs.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/scand-manager-logs.yaml
+- aid: 42crunch:42crunch-logs-api
+  name: 42Crunch Logs API
+  description: Access job execution logs
+  humanURL: https://docs.42crunch.com/latest/content/concepts/api_contract_security_audit.htm
+  tags:
+  - Logs
+  properties:
+  - type: OpenAPI
+    url: openapi/42crunch-logs-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/42Crunch/scand-manager
+  - type: JSONSchema
+    url: json-schema/scand-manager-job-name-schema.json
+  - type: JSONSchema
+    url: json-schema/scand-manager-jobs-schema.json
+  - type: JSONSchema
+    url: json-schema/scand-manager-job-spec-schema.json
+  - type: JSONSchema
+    url: json-schema/scand-manager-job-status-schema.json
+  - type: JSONSchema
+    url: json-schema/scand-manager-error-schema.json
+  - type: JSONStructure
+    url: json-structure/scand-manager-job-name-structure.json
+  - type: JSONStructure
+    url: json-structure/scand-manager-jobs-structure.json
+  - type: JSONStructure
+    url: json-structure/scand-manager-job-spec-structure.json
+  - type: JSONStructure
+    url: json-structure/scand-manager-job-status-structure.json
+  - type: JSONStructure
+    url: json-structure/scand-manager-error-structure.json
+  - type: Examples
+    url: examples/scand-manager-job-name-example.json
+  - type: Examples
+    url: examples/scand-manager-jobs-example.json
+  - type: Examples
+    url: examples/scand-manager-job-spec-example.json
+  - type: Examples
+    url: examples/scand-manager-job-status-example.json
+  - type: Examples
+    url: examples/scand-manager-error-example.json
+  - type: X-NaftikoCapability
+    url: capabilities/scand-manager-health.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/scand-manager-jobs.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/scand-manager-logs.yaml
 common:
 - type: AgenticAccess
   url: agentic-access/42crunch-agentic-access.yml
