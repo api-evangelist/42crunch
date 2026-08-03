@@ -1,0 +1,18 @@
+{
+  "provider": "42crunch",
+  "sources": [
+    "42crunch-health-api-openapi.yml",
+    "42crunch-jobs-api-openapi.yml",
+    "42crunch-logs-api-openapi.yml"
+  ],
+  "outputs": [
+    "42crunch-health-api-openapi.yml",
+    "42crunch-jobs-api-openapi.yml",
+    "42crunch-logs-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
