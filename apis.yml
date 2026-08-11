@@ -119,12 +119,6 @@ apis:
     url: examples/scand-manager-job-status-example.json
   - type: Examples
     url: examples/scand-manager-error-example.json
-  - type: X-NaftikoCapability
-    url: capabilities/scand-manager-health.yaml
-  - type: X-NaftikoCapability
-    url: capabilities/scand-manager-jobs.yaml
-  - type: X-NaftikoCapability
-    url: capabilities/scand-manager-logs.yaml
 - aid: 42crunch:42crunch-jobs-api
   name: 42Crunch Jobs API
   description: Manage API conformance scan jobs on Kubernetes
@@ -166,12 +160,6 @@ apis:
     url: examples/scand-manager-job-status-example.json
   - type: Examples
     url: examples/scand-manager-error-example.json
-  - type: X-NaftikoCapability
-    url: capabilities/scand-manager-health.yaml
-  - type: X-NaftikoCapability
-    url: capabilities/scand-manager-jobs.yaml
-  - type: X-NaftikoCapability
-    url: capabilities/scand-manager-logs.yaml
 - aid: 42crunch:42crunch-logs-api
   name: 42Crunch Logs API
   description: Access job execution logs
@@ -213,13 +201,12 @@ apis:
     url: examples/scand-manager-job-status-example.json
   - type: Examples
     url: examples/scand-manager-error-example.json
-  - type: X-NaftikoCapability
-    url: capabilities/scand-manager-health.yaml
-  - type: X-NaftikoCapability
-    url: capabilities/scand-manager-jobs.yaml
-  - type: X-NaftikoCapability
-    url: capabilities/scand-manager-logs.yaml
 common:
+- type: IssueTracker
+  url: https://github.com/42Crunch/vscode-openapi/issues
+- type: License
+  name: AGPL-3.0
+  url: https://github.com/42Crunch/vscode-openapi/blob/master/LICENSE
 - type: AgenticAccess
   url: agentic-access/42crunch-agentic-access.yml
 - type: DomainSecurity
