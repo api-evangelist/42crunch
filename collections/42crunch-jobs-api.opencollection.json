@@ -1,0 +1,82 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "42Crunch API Conformance Scan Manager Health Jobs API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Jobs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "42Crunch List All Scan Jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8090/api/job"
+          },
+          "docs": "Get status of all conformance scan jobs currently managed by the scan manager."
+        },
+        {
+          "info": {
+            "name": "42Crunch Create Scan Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8090/api/job",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new API conformance scan job on Kubernetes using the provided scan token and configuration."
+        },
+        {
+          "info": {
+            "name": "42Crunch Get Scan Job Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8090/api/job/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "scand-48340c78-a76c-475f-aa4a-36fc834b3c02",
+                "type": "path",
+                "description": "The name of the scan job (e.g., scand-48340c78-a76c-475f-aa4a-36fc834b3c02)"
+              }
+            ]
+          },
+          "docs": "Read the current status of a specific conformance scan job by name."
+        },
+        {
+          "info": {
+            "name": "42Crunch Delete Scan Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8090/api/job/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "scand-48340c78-a76c-475f-aa4a-36fc834b3c02",
+                "type": "path",
+                "description": "The name of the scan job to delete"
+              }
+            ]
+          },
+          "docs": "Delete a conformance scan job by name. Removes the Kubernetes Job resource."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

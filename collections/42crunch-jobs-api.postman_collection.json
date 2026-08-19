@@ -1,0 +1,547 @@
+{
+  "item": [
+    {
+      "id": "3cdceacc-478a-4c35-a3b6-800fe0427a4c",
+      "name": "Jobs",
+      "description": {
+        "content": "Manage API conformance scan jobs on Kubernetes",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "da0d240f-2022-41e9-9a25-c6e7aaa83b9f",
+          "name": "42Crunch List All Scan Jobs",
+          "request": {
+            "name": "42Crunch List All Scan Jobs",
+            "description": {
+              "content": "Get status of all conformance scan jobs currently managed by the scan manager.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "job"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1a3bafb1-de63-45ba-bf93-f91d9e6f1e9d",
+              "name": "OK - List of all jobs returned successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "job"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jobs\": [\n    {\n      \"name\": \"scand-48340c78-a76c-475f-aa4a-36fc834b3c02\",\n      \"status\": \"active\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5684d65e-bbc4-469d-8eeb-1f817886fd6b",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "job"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Invalid request parameters\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f461caf8-778a-41d2-b531-71ca3bb9c8b9",
+          "name": "42Crunch Create Scan Job",
+          "request": {
+            "name": "42Crunch Create Scan Job",
+            "description": {
+              "content": "Create a new API conformance scan job on Kubernetes using the provided scan token and configuration.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "job"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"<string>\",\n  \"name\": \"<string>\",\n  \"expirationTime\": \"<integer>\",\n  \"platformService\": \"<string>\",\n  \"scandImage\": \"<string>\",\n  \"env\": {\n    \"key_0\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2a400922-eb4b-4402-9849-d9165499e2b1",
+              "name": "OK - Job created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "job"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"token\": \"00000000-0000-0000-0000-000000000000\",\n  \"name\": \"scand-foo\",\n  \"expirationTime\": 777,\n  \"platformService\": \"protection.42crunch.com:8001\",\n  \"scandImage\": \"42crunch/scand-agent:latest\",\n  \"env\": {\n    \"HTTPS_PROXY\": \"http://proxy.example.com:8080\",\n    \"SECURITY_FOO\": \"bar\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"scand-48340c78-a76c-475f-aa4a-36fc834b3c02\",\n  \"status\": \"started\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6682fbb2-a6cc-4153-ac5e-cd8b912cc932",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "job"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"token\": \"00000000-0000-0000-0000-000000000000\",\n  \"name\": \"scand-foo\",\n  \"expirationTime\": 777,\n  \"platformService\": \"protection.42crunch.com:8001\",\n  \"scandImage\": \"42crunch/scand-agent:latest\",\n  \"env\": {\n    \"HTTPS_PROXY\": \"http://proxy.example.com:8080\",\n    \"SECURITY_FOO\": \"bar\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Missing required field token\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5fdb9a71-2044-44c1-b5dc-34ed0b5198bc",
+          "name": "42Crunch Get Scan Job Status",
+          "request": {
+            "name": "42Crunch Get Scan Job Status",
+            "description": {
+              "content": "Read the current status of a specific conformance scan job by name.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "job",
+                ":name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) The name of the scan job (e.g., scand-48340c78-a76c-475f-aa4a-36fc834b3c02)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "595b82ac-5bb4-462f-970a-92711ba2f6ec",
+              "name": "OK - Job status returned successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "job",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) The name of the scan job (e.g., scand-48340c78-a76c-475f-aa4a-36fc834b3c02)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"scand-48340c78-a76c-475f-aa4a-36fc834b3c02\",\n  \"status\": \"active\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "77948661-c336-4147-a75f-98b072861c7e",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "job",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) The name of the scan job (e.g., scand-48340c78-a76c-475f-aa4a-36fc834b3c02)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Job not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8530adb2-8811-461e-94e6-e54b46d1e4a2",
+          "name": "42Crunch Delete Scan Job",
+          "request": {
+            "name": "42Crunch Delete Scan Job",
+            "description": {
+              "content": "Delete a conformance scan job by name. Removes the Kubernetes Job resource.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "job",
+                ":name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) The name of the scan job to delete"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1ff9debb-6722-4946-a964-f8465287c103",
+              "name": "OK - Job deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "job",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) The name of the scan job to delete"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"scand-48340c78-a76c-475f-aa4a-36fc834b3c02\",\n  \"status\": \"deleted\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "922ec6e4-d137-4769-8eb1-ae80ce61c204",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "job",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) The name of the scan job to delete"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Job not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:8090/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "7f1dd243-0a53-435e-990e-4d788986f222",
+    "name": "42Crunch API Conformance Scan Manager Health Jobs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API Conformance Scan Jobs Manager provides a convenient way to run 42Crunch API Conformance Scan on-premises as a Kubernetes Job in your Kubernetes cluster. It manages scan job lifecycle including creation, status monitoring, log retrieval, and deletion.\n\nContact Support:\n Name: 42Crunch Support",
+      "type": "text/plain"
+    }
+  }
+}

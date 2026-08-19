@@ -1,0 +1,137 @@
+{
+  "item": [
+    {
+      "id": "81e9983f-ca21-47fe-9e54-dd5ee34b979f",
+      "name": "Health",
+      "description": {
+        "content": "Service health check",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "083e553c-3997-47fb-8083-717f6b1c935d",
+          "name": "42Crunch Health Check",
+          "request": {
+            "name": "42Crunch Health Check",
+            "description": {
+              "content": "Check the health status of the scan manager service.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "health"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f473b319-2bcb-495d-83d8-7a3dfb8582b3",
+              "name": "OK - Service is healthy",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "health"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"OK\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6113ac43-1419-4e0a-a3ca-2503830af1a8",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "health"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Service unavailable\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:8090/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "111ae1b6-df8d-4ef2-8c14-c6022289d069",
+    "name": "42Crunch API Conformance Scan Jobs Manager Health API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API Conformance Scan Jobs Manager provides a convenient way to run 42Crunch API Conformance Scan on-premises as a Kubernetes Job in your Kubernetes cluster. It manages scan job lifecycle including creation, status monitoring, log retrieval, and deletion.\n\nContact Support:\n Name: 42Crunch Support",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "42Crunch API Conformance Scan Jobs Manager Health API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Health",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "42Crunch Health Check",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8090/health"
+          },
+          "docs": "Check the health status of the scan manager service."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
