@@ -124,6 +124,8 @@ apis:
   description: Manage API conformance scan jobs on Kubernetes
   humanURL: https://docs.42crunch.com/latest/content/concepts/api_contract_security_audit.htm
   tags:
+  - Job
+  tags_raw:
   - Jobs
   properties:
   - type: OpenAPI
