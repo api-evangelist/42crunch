@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   title: 42Crunch API Conformance Scan Manager Health Jobs API
   description: API Conformance Scan Jobs Manager provides a convenient way to run 42Crunch API Conformance Scan on-premises as a Kubernetes Job in your Kubernetes cluster. It manages scan job lifecycle including creation, status monitoring, log retrieval, and deletion.
@@ -194,6 +194,20 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Jobs:
+      type: object
+      description: Collection of all scan jobs
+      properties:
+        jobs:
+          type: array
+          description: List of all scan job statuses
+          items:
+            $ref: '#/components/schemas/JobStatus'
+          maxItems: 1024
+          example:
+          - name: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
+            status: active
+      additionalProperties: false
     JobSpec:
       type: object
       description: Specification for creating a new conformance scan job
@@ -244,20 +258,6 @@ components:
       additionalProperties: false
       required:
       - token
-    Jobs:
-      type: object
-      description: Collection of all scan jobs
-      properties:
-        jobs:
-          type: array
-          description: List of all scan job statuses
-          items:
-            $ref: '#/components/schemas/JobStatus'
-          maxItems: 1024
-          example:
-          - name: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
-            status: active
-      additionalProperties: false
     JobName:
       type: string
       description: Unique name identifier for a scan job, prefixed with 'scand-'
