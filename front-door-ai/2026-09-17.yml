@@ -1,0 +1,31 @@
+# Front Door AI Index — 42crunch — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: 42crunch
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: 42crunch.com
+  final_host: 42crunch.com
+  ownership: own
+  owner: 42crunch
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 123
+  host_score: 123
+  density: 51.94
+  words: 2368
+  tiers:
+    agentic: 76
+    core: 47
+    model: 0
+  ambiguous: 12
+  top_terms:
+    MCP: 61
+    AI: 47
+    agent: 10
+    AI agent: 6
+    prompts: 5
+    agentic: 4
+    automation: 2

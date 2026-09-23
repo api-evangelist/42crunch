@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: 42Crunch API Conformance Scan Manager Health Jobs API
+  title: 42Crunch API Conformance Scan Manager Jobs API
   description: API Conformance Scan Jobs Manager provides a convenient way to run 42Crunch API Conformance Scan on-premises as a Kubernetes Job in your Kubernetes cluster. It manages scan job lifecycle including creation, status monitoring, log retrieval, and deletion.
   version: 1.0.0
   x-generated-from: documentation
@@ -194,6 +194,48 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    JobStatus:
+      type: object
+      description: Current status of a conformance scan job
+      properties:
+        name:
+          $ref: '#/components/schemas/JobName'
+        status:
+          type: string
+          description: Current lifecycle status of the job
+          enum:
+          - started
+          - active
+          - succeeded
+          - failed
+          - unknown
+          - deleted
+          example: active
+      additionalProperties: false
+      required:
+      - name
+      - status
+    JobName:
+      type: string
+      description: Unique name identifier for a scan job, prefixed with 'scand-'
+      pattern: ^scand-[0-9a-zA-Z-]{1,36}$
+      maxLength: 42
+      minLength: 7
+      example: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
+    Error:
+      type: object
+      description: Error response from the API
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          maxLength: 1024
+          minLength: 1
+          pattern: ^\P{Cc}+$
+          example: Job not found
+      additionalProperties: false
+      required:
+      - error
     Jobs:
       type: object
       description: Collection of all scan jobs
@@ -258,46 +300,4 @@ components:
       additionalProperties: false
       required:
       - token
-    JobName:
-      type: string
-      description: Unique name identifier for a scan job, prefixed with 'scand-'
-      pattern: ^scand-[0-9a-zA-Z-]{1,36}$
-      maxLength: 42
-      minLength: 7
-      example: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
-    JobStatus:
-      type: object
-      description: Current status of a conformance scan job
-      properties:
-        name:
-          $ref: '#/components/schemas/JobName'
-        status:
-          type: string
-          description: Current lifecycle status of the job
-          enum:
-          - started
-          - active
-          - succeeded
-          - failed
-          - unknown
-          - deleted
-          example: active
-      additionalProperties: false
-      required:
-      - name
-      - status
-    Error:
-      type: object
-      description: Error response from the API
-      properties:
-        error:
-          type: string
-          description: Human-readable error message
-          maxLength: 1024
-          minLength: 1
-          pattern: ^\P{Cc}+$
-          example: Job not found
-      additionalProperties: false
-      required:
-      - error
 x-42c-no-authentication: true

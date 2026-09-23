@@ -1,9 +1,7 @@
 {
   "provider": "42crunch",
   "sources": [
-    "42crunch-health-api-openapi.yml",
-    "42crunch-jobs-api-openapi.yml",
-    "42crunch-logs-api-openapi.yml"
+    "_ae-authored/42crunch-scand-manager.yaml"
   ],
   "outputs": [
     "42crunch-health-api-openapi.yml",
@@ -14,7 +12,13 @@
   "errors": [],
   "warnings": [],
   "notes": [
+    "sourced from openapi/_original/ (0 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "42crunch-scand-manager.yaml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "42crunch-health-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "42crunch-jobs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "42crunch-logs-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
