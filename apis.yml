@@ -54,8 +54,6 @@ apis:
     type: Documentation
   - url: https://docs.42crunch.com/latest/content/home.htm
     type: APIReference
-  - url: graphql/42crunch-graphql.md
-    type: GraphQL
   description: >-
     The 42Crunch API Security Audit performs automated static analysis of API definitions (OpenAPI 2,
     3.0, 3.1 and GraphQL), running over 200 checks across format validation, data definition quality,

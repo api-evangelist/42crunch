@@ -1,1 +1,0 @@
-# 42Crunch GraphQL API
