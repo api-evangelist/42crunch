@@ -194,13 +194,20 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    JobName:
-      type: string
-      description: Unique name identifier for a scan job, prefixed with 'scand-'
-      pattern: ^scand-[0-9a-zA-Z-]{1,36}$
-      maxLength: 42
-      minLength: 7
-      example: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
+    Jobs:
+      type: object
+      description: Collection of all scan jobs
+      properties:
+        jobs:
+          type: array
+          description: List of all scan job statuses
+          items:
+            $ref: '#/components/schemas/JobStatus'
+          maxItems: 1024
+          example:
+          - name: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
+            status: active
+      additionalProperties: false
     JobStatus:
       type: object
       description: Current status of a conformance scan job
@@ -222,34 +229,13 @@ components:
       required:
       - name
       - status
-    Error:
-      type: object
-      description: Error response from the API
-      properties:
-        error:
-          type: string
-          description: Human-readable error message
-          maxLength: 1024
-          minLength: 1
-          pattern: ^\P{Cc}+$
-          example: Job not found
-      additionalProperties: false
-      required:
-      - error
-    Jobs:
-      type: object
-      description: Collection of all scan jobs
-      properties:
-        jobs:
-          type: array
-          description: List of all scan job statuses
-          items:
-            $ref: '#/components/schemas/JobStatus'
-          maxItems: 1024
-          example:
-          - name: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
-            status: active
-      additionalProperties: false
+    JobName:
+      type: string
+      description: Unique name identifier for a scan job, prefixed with 'scand-'
+      pattern: ^scand-[0-9a-zA-Z-]{1,36}$
+      maxLength: 42
+      minLength: 7
+      example: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
     JobSpec:
       type: object
       description: Specification for creating a new conformance scan job
@@ -300,4 +286,18 @@ components:
       additionalProperties: false
       required:
       - token
+    Error:
+      type: object
+      description: Error response from the API
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          maxLength: 1024
+          minLength: 1
+          pattern: ^\P{Cc}+$
+          example: Job not found
+      additionalProperties: false
+      required:
+      - error
 x-42c-no-authentication: true
