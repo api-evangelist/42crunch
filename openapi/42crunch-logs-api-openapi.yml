@@ -58,6 +58,13 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    JobName:
+      type: string
+      description: Unique name identifier for a scan job, prefixed with 'scand-'
+      pattern: ^scand-[0-9a-zA-Z-]{1,36}$
+      maxLength: 42
+      minLength: 7
+      example: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
     Error:
       type: object
       description: Error response from the API
@@ -72,11 +79,4 @@ components:
       additionalProperties: false
       required:
       - error
-    JobName:
-      type: string
-      description: Unique name identifier for a scan job, prefixed with 'scand-'
-      pattern: ^scand-[0-9a-zA-Z-]{1,36}$
-      maxLength: 42
-      minLength: 7
-      example: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
 x-42c-no-authentication: true

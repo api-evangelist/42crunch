@@ -194,48 +194,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Jobs:
-      type: object
-      description: Collection of all scan jobs
-      properties:
-        jobs:
-          type: array
-          description: List of all scan job statuses
-          items:
-            $ref: '#/components/schemas/JobStatus'
-          maxItems: 1024
-          example:
-          - name: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
-            status: active
-      additionalProperties: false
-    JobStatus:
-      type: object
-      description: Current status of a conformance scan job
-      properties:
-        name:
-          $ref: '#/components/schemas/JobName'
-        status:
-          type: string
-          description: Current lifecycle status of the job
-          enum:
-          - started
-          - active
-          - succeeded
-          - failed
-          - unknown
-          - deleted
-          example: active
-      additionalProperties: false
-      required:
-      - name
-      - status
-    JobName:
-      type: string
-      description: Unique name identifier for a scan job, prefixed with 'scand-'
-      pattern: ^scand-[0-9a-zA-Z-]{1,36}$
-      maxLength: 42
-      minLength: 7
-      example: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
     JobSpec:
       type: object
       description: Specification for creating a new conformance scan job
@@ -286,6 +244,27 @@ components:
       additionalProperties: false
       required:
       - token
+    JobName:
+      type: string
+      description: Unique name identifier for a scan job, prefixed with 'scand-'
+      pattern: ^scand-[0-9a-zA-Z-]{1,36}$
+      maxLength: 42
+      minLength: 7
+      example: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
+    Jobs:
+      type: object
+      description: Collection of all scan jobs
+      properties:
+        jobs:
+          type: array
+          description: List of all scan job statuses
+          items:
+            $ref: '#/components/schemas/JobStatus'
+          maxItems: 1024
+          example:
+          - name: scand-48340c78-a76c-475f-aa4a-36fc834b3c02
+            status: active
+      additionalProperties: false
     Error:
       type: object
       description: Error response from the API
@@ -300,4 +279,25 @@ components:
       additionalProperties: false
       required:
       - error
+    JobStatus:
+      type: object
+      description: Current status of a conformance scan job
+      properties:
+        name:
+          $ref: '#/components/schemas/JobName'
+        status:
+          type: string
+          description: Current lifecycle status of the job
+          enum:
+          - started
+          - active
+          - succeeded
+          - failed
+          - unknown
+          - deleted
+          example: active
+      additionalProperties: false
+      required:
+      - name
+      - status
 x-42c-no-authentication: true
