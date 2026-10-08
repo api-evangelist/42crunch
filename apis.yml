@@ -216,6 +216,12 @@ apis:
   - type: Examples
     url: examples/scand-manager-error-example.json
 common:
+- type: Plans
+  url: plans/42crunch-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/42crunch-rate-limits.yml
+- type: FinOps
+  url: finops/42crunch-finops.yml
 - type: IssueTracker
   url: https://github.com/42Crunch/vscode-openapi/issues
 - type: License
