@@ -2,6 +2,9 @@ generated: '2026-10-13'
 method: searched
 checked:
 - https://azuremarketplace.microsoft.com/
+- https://github.com/marketplace?type=actions
+- https://marketplace.visualstudio.com/vscode
+- https://plugins.jetbrains.com/
 marketplace_apps: []
 edges:
 - partner_name: Microsoft Azure Marketplace
@@ -20,3 +23,62 @@ edges:
   seller_name: 42Crunch
   detected_by: sweep-cloud-marketplaces.py
   detected: '2026-10-13'
+- partner_name: GitHub Marketplace (actions)
+  partner: github-actions
+  partner_match: aggregator
+  type: marketplace
+  marketplace: github-actions
+  channel: partner-built
+  relationship: platform-app
+  direction: third-party
+  evidence: https://github.com/marketplace/actions/42crunch-rest-api-static-security-testing
+  listing_count: 4
+  apps:
+  - 42Crunch REST API Static Security Testing
+  - 42Crunch REST API Static Security Testing - Freemium
+  - 42Crunch API Conformance Scan
+  - 42Crunch REST API Dynamic Security Testing Freemium
+  publisher_name: 42Crunch
+  badges:
+  - Verified creator
+  detected_by: sweep-devtools.py
+  detected: '2026-10-14'
+- partner_name: JetBrains Marketplace
+  partner: jetbrains
+  partner_match: aggregator
+  type: marketplace
+  marketplace: jetbrains
+  channel: partner-built
+  relationship: platform-app
+  direction: third-party
+  evidence: https://plugins.jetbrains.com/vendor/42Crunch
+  listing_count: 1
+  apps:
+  - OpenAPI (Swagger) Editor
+  publisher_name: 42Crunch
+  badges:
+  - Verified vendor
+  detected_by: sweep-devtools.py
+  detected: '2026-10-14'
+- partner_name: Visual Studio Code Marketplace
+  partner: vs-code-marketplace
+  partner_match: aggregator
+  type: marketplace
+  marketplace: vscode
+  channel: partner-built
+  relationship: platform-app
+  direction: third-party
+  evidence: https://marketplace.visualstudio.com/publishers/42Crunch
+  listing_count: 1
+  apps:
+  - OpenAPI (Swagger) Editor
+  publisher_name: 42Crunch
+  badges:
+  - Verified publisher
+  - Verified domain
+  detected_by: sweep-devtools.py
+  detected: '2026-10-14'
+source:
+- https://github.com/marketplace?type=actions
+- https://marketplace.visualstudio.com/vscode
+- https://plugins.jetbrains.com/
