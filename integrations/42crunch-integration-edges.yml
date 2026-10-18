@@ -1,6 +1,7 @@
 generated: '2026-10-13'
 method: searched
 checked:
+- https://api-gw.platform.linuxfoundation.org/project-service/v1/public/projects/a0941000002wBykAAE/members
 - https://azuremarketplace.microsoft.com/
 - https://github.com/marketplace?type=actions
 - https://marketplace.visualstudio.com/vscode
@@ -78,6 +79,30 @@ edges:
   - Verified domain
   detected_by: sweep-devtools.py
   detected: '2026-10-14'
+- partner_name: OpenAPI Initiative (members)
+  partner: openapi-initiative
+  partner_match: register
+  type: register
+  direction: partner-built
+  category: API description standard
+  evidence: https://api-gw.platform.linuxfoundation.org/project-service/v1/public/projects/a0941000002wBykAAE/members
+  channel: standard-directory
+  relationship: standard-participant
+  contract_reference:
+    register: OpenAPI Initiative members (Linux Foundation project service, public members endpoint)
+    spec_file: null
+    standard: OpenAPI
+    role: oai-member
+    registered_name: 42Crunch
+    member_tier: Participating Membership - LFNM
+    membership_status: Active
+    matched_domain: 42crunch.com
+    matched_by: domain
+    signal_note: 'participation only: a membership is not conformance'
+    detected_by: sweep-api-management.py
+    detected: '2026-10-18'
+  detected_by: sweep-api-management.py
+  first_seen: '2026-10-18'
 source:
 - https://github.com/marketplace?type=actions
 - https://marketplace.visualstudio.com/vscode
