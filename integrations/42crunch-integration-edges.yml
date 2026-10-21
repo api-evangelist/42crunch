@@ -6,6 +6,7 @@ checked:
 - https://github.com/marketplace?type=actions
 - https://marketplace.visualstudio.com/vscode
 - https://plugins.jetbrains.com/
+- atlassian/integrations/atlassian-integration-edges.yml
 marketplace_apps: []
 edges:
 - partner_name: Microsoft Azure Marketplace
@@ -100,9 +101,26 @@ edges:
     matched_by: domain
     signal_note: 'participation only: a membership is not conformance'
     detected_by: sweep-api-management.py
-    detected: '2026-10-18'
+    detected: '2026-10-19'
   detected_by: sweep-api-management.py
   first_seen: '2026-10-18'
+- partner_name: Atlassian (own)
+  partner: atlassian
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://marketplace.atlassian.com/vendors/1217903/42crunch
+  mirror_of: atlassian/integrations/atlassian-integration-edges.yml
+  apps:
+  - REST API Static Security Testing
+  listing_count: 1
+  detected: '2026-10-21'
+  detected_by: mirror-platform-listings.py
+  category: Code quality
 source:
 - https://github.com/marketplace?type=actions
 - https://marketplace.visualstudio.com/vscode

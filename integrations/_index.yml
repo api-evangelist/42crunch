@@ -190,6 +190,19 @@
     matched_by: domain
     signal_note: 'participation only: a membership is not conformance'
     detected_by: sweep-api-management.py
-    detected: '2026-10-18'
+    detected: '2026-10-19'
+  status: not-a-workflow
+  arazzo: null
+- slug: 42crunch-atlassian-own
+  label: Atlassian (own)
+  partner: atlassian
+  partner_name: Atlassian (own)
+  category: Code quality
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://marketplace.atlassian.com/vendors/1217903/42crunch
+  source: edge
+  relationship: platform-app
   status: not-a-workflow
   arazzo: null
