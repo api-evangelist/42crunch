@@ -1,4 +1,4 @@
-# 42Crunch (42crunch)
+# 42Crunch
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,204 +66,178 @@
 
 42Crunch is a leading API security company that specializes in protecting and securing APIs. They provide innovative solutions that help organizations safeguard their sensitive data and critical assets from potential cyber threats. With their comprehensive API security platform, 42Crunch offers a range of services such as API scanning, traffic monitoring, and runtime protection to ensure that APIs are secure and compliant with industry standards. Their platform covers the full API security lifecycle from design and audit through dynamic testing and runtime firewall protection.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/42crunch/refs/heads/main/apis.yml)
+**Areas:** API Security · Platform · Scanning · Security · OpenAPI · DevSecOps
 
-**Run:** [Capabilities Using Naftiko](https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=company-api-evangelist&utm_content=repo)
+## 42Crunch on APIs.io
 
-## Tags:
+Everything profiled for 42Crunch is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/42crunch/](https://apis.io/providers/42crunch/)** — or go straight to one of the APIs or properties below.
 
- - API Security, Platform, Scanning, Security, OpenAPI, DevSecOps
+### APIs (6)
 
-## Timestamps
+- [42Crunch API Security Audit](https://apis.io/apis/42crunch/42crunch-api-security-audit/) — The 42Crunch API Security Audit performs automated static analysis of API definitions (OpenAPI 2, 3.0, 3.1 and GraphQL), running over 200 checks across…
+- [42Crunch API Scan](https://apis.io/apis/42crunch/42crunch-api-scan/) — 42Crunch API Scan performs dynamic API security testing (DAST) that evaluates runtime API behavior against its OpenAPI specification. It tests how well an…
+- [42Crunch API Protection](https://apis.io/apis/42crunch/42crunch-api-protection/) — 42Crunch API Protection deploys an API-native micro firewall (API Firewall) that provides runtime defense against API attacks. The firewall is tailor-made…
+- [42Crunch Health API](https://apis.io/apis/42crunch/42crunch-health-api/) — Service health check
+- [42Crunch Jobs API](https://apis.io/apis/42crunch/42crunch-jobs-api/) — Manage API conformance scan jobs on Kubernetes
+- [42Crunch Logs API](https://apis.io/apis/42crunch/42crunch-logs-api/) — Access job execution logs
 
-- **Created:** 2025-01-08
-- **Modified:** 2026-04-19
+### Published properties
 
-## APIs
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-### 42Crunch API Security Audit
-The 42Crunch API Security Audit performs automated static analysis of API definitions (OpenAPI 2, 3.0, 3.1 and GraphQL), running over 200 checks across format validation, data definition quality, and security analysis. APIs are scored 0-100 with recommendations to reach 70+ before runtime protection is applied. Integrates with CI/CD pipelines for continuous monitoring.
+#### GraphQL (1)
 
-**Human URL:** [https://docs.42crunch.com/latest/content/concepts/api_contract_security_audit.htm](https://docs.42crunch.com/latest/content/concepts/api_contract_security_audit.htm)
+GraphQL schemas.
 
-#### Tags:
+- [Moved to /providers/42crunch/](https://apis.io/graphqls/42crunch/42crunch-graphql/)
 
- - API Security, Static Analysis, OpenAPI, Vulnerability Scanning
+#### Agentic access (1)
 
-#### Properties
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- [Documentation](https://docs.42crunch.com/latest/content/concepts/api_contract_security_audit.htm)
-- [APIReference](https://docs.42crunch.com/latest/content/home.htm)
+- [42Crunch Agentic Access](https://apis.io/agentic-access/42crunch/42crunch-agentic-access/)
 
-### 42Crunch API Scan
-42Crunch API Scan performs dynamic API security testing (DAST) that evaluates runtime API behavior against its OpenAPI specification. It tests how well an API adheres to its contract and identifies vulnerabilities that only appear at runtime. Supports integration with CI/CD pipelines and Kubernetes via the scand-manager Kubernetes wrapper.
+#### JSON Schema (5)
 
-**Human URL:** [https://docs.42crunch.com/latest/content/home.htm](https://docs.42crunch.com/latest/content/home.htm)
+The data models the API reads and writes.
 
-#### Tags:
+- [Error](https://apis.io/schemas/42crunch/scand-manager-error/)
+- [JobName](https://apis.io/schemas/42crunch/scand-manager-job-name/)
+- [JobSpec](https://apis.io/schemas/42crunch/scand-manager-job-spec/)
+- [JobStatus](https://apis.io/schemas/42crunch/scand-manager-job-status/)
+- [Jobs](https://apis.io/schemas/42crunch/scand-manager-jobs/)
 
- - API Security, Dynamic Testing, DAST, Contract Testing
+#### JSON Structure (5)
 
-#### Properties
+Data models expressed in JSON Structure.
 
-- [Documentation](https://docs.42crunch.com/latest/content/home.htm)
+- [Scand Manager Error Structure](https://apis.io/json-structure/42crunch/scand-manager-error-structure/)
+- [Scand Manager Job Name Structure](https://apis.io/json-structure/42crunch/scand-manager-job-name-structure/)
+- [Scand Manager Job Spec Structure](https://apis.io/json-structure/42crunch/scand-manager-job-spec-structure/)
+- [Scand Manager Job Status Structure](https://apis.io/json-structure/42crunch/scand-manager-job-status-structure/)
+- [Scand Manager Jobs Structure](https://apis.io/json-structure/42crunch/scand-manager-jobs-structure/)
 
-### 42Crunch API Protection
-42Crunch API Protection deploys an API-native micro firewall (API Firewall) that provides runtime defense against API attacks. The firewall is tailor-made for each API based on its OpenAPI specification and enforces API contract compliance in real time, blocking malformed requests and unauthorized access.
+#### JSON-LD (1)
 
-**Human URL:** [https://docs.42crunch.com/latest/content/home.htm](https://docs.42crunch.com/latest/content/home.htm)
+Linked-data contexts for the provider's vocabulary.
 
-#### Tags:
+- [42Crunch Scand Manager Context](https://apis.io/jsonld/42crunch/42crunch-scand-manager-context/)
 
- - API Security, Runtime Protection, Firewall, API Gateway
+#### Vocabulary (1)
 
-#### Properties
+The provider's domain terms, defined.
 
-- [Documentation](https://docs.42crunch.com/latest/content/home.htm)
+- [42Crunch Vocabulary](https://apis.io/vocabularies/42crunch/42crunch-vocabulary/)
 
-### 42Crunch API Conformance Scan Jobs Manager
-The 42Crunch Scand Manager provides a convenient way to run 42Crunch API Conformance Scans on-premises as Kubernetes Jobs. It manages the full lifecycle of scan jobs including creation, status monitoring, log retrieval, and deletion.
+#### Examples (5)
 
-**Human URL:** [https://github.com/42Crunch/scand-manager](https://github.com/42Crunch/scand-manager)
+Example requests and responses.
 
-#### Tags:
+- [Scand Manager Error Example](https://apis.io/examples/42crunch/scand-manager-error-example/)
+- [Scand Manager Job Name Example](https://apis.io/examples/42crunch/scand-manager-job-name-example/)
+- [Scand Manager Job Spec Example](https://apis.io/examples/42crunch/scand-manager-job-spec-example/)
+- [Scand Manager Job Status Example](https://apis.io/examples/42crunch/scand-manager-job-status-example/)
+- [Scand Manager Jobs Example](https://apis.io/examples/42crunch/scand-manager-jobs-example/)
 
- - API Security, Kubernetes, Conformance Scanning, DevSecOps
+#### Collections (3)
 
-#### Properties
+Postman and Open Collection request collections.
 
-- [Documentation](https://github.com/42Crunch/scand-manager)
-- [OpenAPI](openapi/42crunch-scand-manager.yaml)
-- [JSONSchema - Job Name Schema](json-schema/scand-manager-job-name-schema.json)
-- [JSONSchema - Jobs Schema](json-schema/scand-manager-jobs-schema.json)
-- [JSONSchema - Job Spec Schema](json-schema/scand-manager-job-spec-schema.json)
-- [JSONSchema - Job Status Schema](json-schema/scand-manager-job-status-schema.json)
-- [JSONSchema - Error Schema](json-schema/scand-manager-error-schema.json)
-- [JSONStructure - Job Name Structure](json-structure/scand-manager-job-name-structure.json)
-- [JSONStructure - Jobs Structure](json-structure/scand-manager-jobs-structure.json)
-- [JSONStructure - Job Spec Structure](json-structure/scand-manager-job-spec-structure.json)
-- [JSONStructure - Job Status Structure](json-structure/scand-manager-job-status-structure.json)
-- [JSONStructure - Error Structure](json-structure/scand-manager-error-structure.json)
-- [Example - Job Name Example](examples/scand-manager-job-name-example.json)
-- [Example - Jobs Example](examples/scand-manager-jobs-example.json)
-- [Example - Job Spec Example](examples/scand-manager-job-spec-example.json)
-- [Example - Job Status Example](examples/scand-manager-job-status-example.json)
-- [Example - Error Example](examples/scand-manager-error-example.json)
+- [42Crunch API Conformance Scan Jobs Manager Health API](https://apis.io/collections/42crunch/open-42crunch-health-api/)
+- [42Crunch API Conformance Scan Manager Health Jobs API](https://apis.io/collections/42crunch/open-42crunch-jobs-api/)
+- [42Crunch API Conformance Scan Jobs Manager Health Logs API](https://apis.io/collections/42crunch/open-42crunch-logs-api/)
 
-## Common Properties
+#### Governance rules (2)
+
+Spectral rulesets for the provider's contracts.
+
+- [42Crunch — jsonschema rules](https://apis.io/rules/42crunch/42crunch-jsonschema-spectral-rules/)
+- [42Crunch API Rules](https://apis.io/rules/42crunch/42crunch-spectral-rules/)
+
+#### Security (1)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [42Crunch Domain Security](https://apis.io/security/42crunch/42crunch-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [42Crunch Plans Pricing](https://apis.io/plans/42crunch/42crunch-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [42Crunch Rate Limits](https://apis.io/rate-limits/42crunch/42crunch-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [42Crunch Finops](https://apis.io/finops/42crunch/42crunch-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://42crunch.com/)
 - [Documentation](https://docs.42crunch.com/latest/content/home.htm)
-- [Blog](https://42crunch.com/blog/)
-- [Support](https://support.42crunch.com/hc/en-us)
 - [Pricing](https://42crunch.com/pricing/)
-- [Tutorials](https://42crunch.com/tutorials/)
-- [Webinars](https://42crunch.com/webinars/)
-- [Partners](https://42crunch.com/partners/)
-- [Login](https://platform.42crunch.com/login)
-- [GitHubOrganization](https://github.com/42Crunch)
-- [IDESupport - VS Code](https://marketplace.visualstudio.com/items?itemName=42Crunch.vscode-openapi)
-- [IDESupport - IntelliJ](https://plugins.jetbrains.com/plugin/14837-openapi-swagger-editor)
+- [Support](https://support.42crunch.com/hc/en-us)
+- [Blog](https://42crunch.com/blog/)
+- [GitHub](https://github.com/42Crunch)
 
-## Features
+## API Evangelist rating
 
-| Name | Description |
-|------|-------------|
-| API Security Audit | Automated static analysis of OpenAPI and GraphQL definitions running over 200 security checks, scoring APIs 0-100 for vulnerability and compliance issues. |
-| API Scan (DAST) | Dynamic API Security Testing that evaluates runtime API behavior against its OpenAPI contract, identifying vulnerabilities that appear only at runtime. |
-| API Firewall | API-native micro firewall that enforces OpenAPI contract compliance at runtime, blocking malformed requests, unauthorized access, and API attacks. |
-| API Discovery | Identifies and catalogs APIs across environments to provide full visibility into the API attack surface. |
-| CI/CD Integration | GitHub Actions and other CI/CD pipeline integrations for automated security scanning in deployment workflows. |
-| IDE Integration | Plugins for VS Code and IntelliJ/JetBrains IDEs that provide real-time OpenAPI editing, validation, and security feedback during API design. |
-| OpenAPI Contract Security | Enforces security best practices in OpenAPI specifications covering authentication, data validation, input/output schemas, and transport security. |
-| Kubernetes Support | Scand Manager provides a Kubernetes wrapper for running 42Crunch API Scan in containerized environments. |
+**Kin Score 26.0** — emerging · rubric 0.24.0 · scored 2026-10-17
 
-## Use Cases
+| Facet | Score |
+|---|---|
+| Discoverability | 62.5 |
+| Contract quality | 26.9 |
+| Contract governance | 27.3 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 23.8 |
+| Access clarity | 25.0 |
 
-| Name | Description |
-|------|-------------|
-| API Security Testing in CI/CD | Embed automated API security scanning into CI/CD pipelines via GitHub Actions to catch vulnerabilities before they reach production. |
-| OpenAPI Specification Review | Audit OpenAPI definitions for security flaws, missing authentication, weak data validation, and schema gaps before API deployment. |
-| Runtime API Protection | Deploy the API Firewall in front of production APIs to enforce contract compliance and block attacks in real time. |
-| DevSecOps API Governance | Provide development, security, and operations teams with shared visibility into API security posture throughout the API lifecycle. |
-| OWASP API Top 10 Compliance | Systematically identify and remediate OWASP API Security Top 10 vulnerabilities in API definitions and runtime behavior. |
-| API Security for Financial Services | Address regulatory and compliance requirements for API security in banking, financial services, and insurance sectors. |
-| Healthcare API Security | Secure healthcare APIs handling sensitive patient data against unauthorized access and data exposure vulnerabilities. |
+**Agent readiness 26.2** — agent-aware
 
-## Integrations
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | — |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
 
-| Name | Description |
-|------|-------------|
-| GitHub Actions | Native GitHub Actions for API Security Audit and API Scan, enabling automated security checks in GitHub CI/CD workflows. |
-| VS Code | OpenAPI extension for Visual Studio Code providing real-time API editing, validation, and security feedback with 42Crunch integration. |
-| IntelliJ / JetBrains | OpenAPI/Swagger Editor plugin for IntelliJ IDEA and other JetBrains IDEs. |
-| Kubernetes | Scand Manager provides Kubernetes-native deployment of API Scan for containerized API security testing. |
-| Tekton | Tekton Pipelines catalog integration for CI/CD security scanning tasks. |
-| SonarQube | SonarQube plugin that integrates 42Crunch API security audit results into code quality dashboards. |
-| API Gateways | API Firewall integrates with API gateway infrastructure to enforce contract compliance at the network edge. |
-| SIEM / SOC Systems | Runtime protection events can be forwarded to SIEM and SOC platforms for centralized threat monitoring and alerting. |
-| Atlassian | Data Center App Performance Toolkit support for Atlassian platform integration. |
+**Regulatory alignment 10.8** — Horizontal (data, software, accessibility, platform)
 
-## Artifacts
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/42crunch/](https://apis.io/providers/42crunch/).
 
-Machine-readable API specifications organized by format.
+## How this profile is made
 
-### OpenAPI
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
 
-- [42Crunch API Conformance Scan Jobs Manager](openapi/42crunch-scand-manager.yaml)
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for 42Crunch: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
 
-### JSON Schema
+## Open an issue
 
-- [Job Name Schema](json-schema/scand-manager-job-name-schema.json)
-- [Jobs Schema](json-schema/scand-manager-jobs-schema.json)
-- [Job Spec Schema](json-schema/scand-manager-job-spec-schema.json)
-- [Job Status Schema](json-schema/scand-manager-job-status-schema.json)
-- [Error Schema](json-schema/scand-manager-error-schema.json)
-
-### JSON Structure
-
-- [Job Name Structure](json-structure/scand-manager-job-name-structure.json)
-- [Jobs Structure](json-structure/scand-manager-jobs-structure.json)
-- [Job Spec Structure](json-structure/scand-manager-job-spec-structure.json)
-- [Job Status Structure](json-structure/scand-manager-job-status-structure.json)
-- [Error Structure](json-structure/scand-manager-error-structure.json)
-
-### JSON-LD
-
-- [42Crunch Scand Manager Context](json-ld/42crunch-scand-manager-context.jsonld)
-
-### Examples
-
-- [Job Name Example](examples/scand-manager-job-name-example.json)
-- [Jobs Example](examples/scand-manager-jobs-example.json)
-- [Job Spec Example](examples/scand-manager-job-spec-example.json)
-- [Job Status Example](examples/scand-manager-job-status-example.json)
-- [Error Example](examples/scand-manager-error-example.json)
-
-## Capabilities
-
-Naftiko capabilities organized as shared per-API definitions composed into customer-facing workflows.
-
-### Shared Per-API Definitions
-
-- [42Crunch Scand Manager](capabilities/shared/scand-manager.yaml) — 6 operations for API conformance scan job management on Kubernetes
-
-### Workflow Capabilities
-
-| Workflow | APIs Combined | Tools | Persona |
-|----------|--------------|-------|---------|
-| [API Security Scanning](capabilities/api-security-scanning.yaml) | Scand Manager | 6 | DevSecOps Engineer, Security Team |
-
-## Vocabulary
-
-- [42Crunch Vocabulary](vocabulary/42crunch-vocabulary.yaml) — Unified taxonomy mapping 4 resources, 5 actions, 1 workflow, and 2 personas across operational (OpenAPI) and capability (Naftiko) dimensions
-
-## Rules
-
-- [42Crunch Spectral Rules](rules/42crunch-spectral-rules.yml) — 40+ rules across 13 categories enforcing 42Crunch API conventions
-
-## Maintainers
-
-**FN:** Kin Lane
-
-**Email:** kin@apievangelist.com
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/42crunch/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
