@@ -1,0 +1,216 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: 42Crunch
+providerId: 42crunch
+created: '2026-05-04'
+# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
+# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
+method: generated
+modified: '2026-05-05'
+reconciled: true
+tags:
+  - API Security
+  - Platform
+  - Scanning
+  - DevSecOps
+  - OpenAPI
+description: 42Crunch sells the API security platform in four tiers — a free IDE-only Freemium plan, a
+  per-user Single User plan, a Teams plan with a 5-user / 75-endpoint floor, and a custom Enterprise plan
+  with a 20-user / 250-endpoint floor. Free and Single User tiers cap monthly Audit / Scan / Contract Generator
+  operations; Teams and Enterprise are unlimited on contracted endpoints.
+sources:
+  - https://42crunch.com/pricing/
+plans:
+  - id: 42crunch-free
+    name: Free
+    type: freemium
+    description: IDE-only single-user plan with monthly capped operations.
+    entries:
+      - label: Free monthly seat
+        name: free_seat
+        type: subscription
+        metric: seat
+        limit: 1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Audit / Scan / Contract Generator operations
+        name: free_ops_quota
+        type: quota
+        metric: operation
+        limit: 100
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: IDE plugins (VS Code, IntelliJ)
+      - name: 100 Audit / Scan / Contract Generator operations per month
+      - name: Self-service support
+  - id: 42crunch-single-user
+    name: Single User
+    type: subscription
+    description: Per-seat plan with raised monthly operation allowances.
+    entries:
+      - label: Per-user monthly
+        name: single_user_seat
+        type: subscription
+        metric: seat
+        limit: 1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '7.50'
+        userMultiplied: true
+      - label: Audit / Scan / Contract Generator operations
+        name: single_user_ops
+        type: quota
+        metric: operation
+        limit: 2000
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: IDE plugins
+      - name: 2,000 Audit / Scan / Contract Generator operations per month
+      - name: Elevated support options
+  - id: 42crunch-teams
+    name: Teams
+    type: subscription
+    description: SaaS platform; minimum 5 users and 75 contracted API endpoints.
+    entries:
+      - label: Plan minimum monthly
+        name: teams_floor
+        type: flat
+        metric: month
+        limit: 1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '375.00'
+        userMultiplied: false
+      - label: Contracted endpoints (minimum)
+        name: teams_endpoints
+        type: subscription
+        metric: endpoint
+        limit: 75
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: included
+        userMultiplied: false
+      - label: Users (minimum)
+        name: teams_users
+        type: subscription
+        metric: seat
+        limit: 5
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: included
+        userMultiplied: false
+    elements:
+      - name: Multi-user SaaS account
+      - name: Unlimited testing on contracted endpoints
+      - name: IDE integration and CI/CD automation
+      - name: Optional runtime protection add-on
+  - id: 42crunch-enterprise
+    name: Enterprise
+    type: enterprise
+    description: Custom-priced plan; minimum 20 users and 250 contracted endpoints.
+    entries:
+      - label: Custom contract
+        name: enterprise_contract
+        type: subscription
+        metric: contract
+        limit: -1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: custom
+        userMultiplied: false
+      - label: Contracted endpoints (minimum)
+        name: enterprise_endpoints
+        type: subscription
+        metric: endpoint
+        limit: 250
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: included
+        userMultiplied: false
+      - label: Users (minimum)
+        name: enterprise_users
+        type: subscription
+        metric: seat
+        limit: 20
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: included
+        userMultiplied: false
+    elements:
+      - name: Full product flexibility and customization
+      - name: API gateway and SIEM/SOC integrations
+      - name: POC trial available
+      - name: All Teams features
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models:
+  - seat
+  - subscription
+  units:
+  - negotiated
+  - period
+  - request
+  - seat
+  plans:
+  - name: Free
+    access: freemium
+    model: seat
+    model_how: derived
+    units:
+    - request
+    - seat
+    periods:
+    - month
+  - name: Single User
+    access: other
+    model: subscription
+    model_how: stated
+    units:
+    - request
+    - seat
+    periods:
+    - month
+  - name: Teams
+    access: other
+    model: subscription
+    model_how: stated
+    units:
+    - other
+    - period
+    - seat
+    periods:
+    - month
+  - name: Enterprise
+    access: enterprise
+    model: seat
+    model_how: derived
+    units:
+    - negotiated
+    - other
+    - seat
+    periods:
+    - month
+    - year
