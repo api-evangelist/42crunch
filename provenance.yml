@@ -44,6 +44,9 @@ artifacts:
   front-door-ai/2026-09-17.yml:
     method: unknown
     evidence: no authorship recorded
+  heartbeat/2026-11-02.yml:
+    method: unknown
+    evidence: no authorship recorded
   integrations/42crunch-datadog.yaml:
     method: unknown
     evidence: no authorship recorded
@@ -125,7 +128,7 @@ artifacts:
   kin/checks-2026-10-23T222754.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
-  kin/checks-2026-10-31T095417.yml:
+  kin/checks-2026-11-02T082323.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-23T000603.yml:
@@ -185,6 +188,15 @@ artifacts:
   kin/score-2026-10-31T095417.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-01T171331.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-01T200237.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-02T082323.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   openapi/42crunch-health-api-openapi.yml:
     method: unknown
     evidence: no authorship recorded
@@ -209,6 +221,9 @@ artifacts:
   security/42crunch-domain-security.yml:
     method: unknown
     evidence: no authorship recorded
+  sla/42crunch-sla.yml:
+    method: generated
+    evidence: declared in the artifact
   vocabulary/42crunch-vocabulary.yaml:
     method: unknown
     evidence: no authorship recorded
