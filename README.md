@@ -191,18 +191,18 @@ Links to the company's own pages. This repository publishes no copy of their spe
 
 ## API Evangelist rating
 
-**Kin Score 26.0** — emerging · rubric 0.24.0 · scored 2026-10-17
+**Kin Score 26.7** — thin · rubric 0.28.1 · scored 2026-11-21
 
 | Facet | Score |
 |---|---|
 | Discoverability | 62.5 |
 | Contract quality | 26.9 |
 | Contract governance | 27.3 |
-| Operational transparency | 10.5 |
+| Operational transparency | 11.9 |
 | Developer ergonomics | 23.8 |
-| Access clarity | 25.0 |
+| Access clarity | 31.9 |
 
-**Agent readiness 26.2** — agent-aware
+**Agent readiness 22.3** — agent-aware
 
 | Agent-readiness dimension | Result |
 |---|---|
@@ -212,7 +212,7 @@ Links to the company's own pages. This repository publishes no copy of their spe
 | MCP Server | — |
 | Auth Clarity | — |
 | Idempotency | — |
-| Error Semantics | verified |
+| Error Semantics | derived (partial credit) |
 | OpenAPI Examples | verified |
 | Rate Limit Signal | derived (partial credit) |
 | Event Surface Described | — |
@@ -225,8 +225,14 @@ Links to the company's own pages. This repository publishes no copy of their spe
 | Protected Resource Metadata | — |
 | Dynamic Client Registration | — |
 | Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+| MCP Tool Quality | na |
+| Onboarding Descriptor | — |
+| Dns Aid Index | na |
+| Markdown Negotiation | na |
 
-**Regulatory alignment 10.8** — Horizontal (data, software, accessibility, platform)
+**Regulatory alignment 4.9** — Horizontal (data, software, accessibility, platform)
 
 The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/42crunch/](https://apis.io/providers/42crunch/).
 
